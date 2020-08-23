@@ -6,7 +6,11 @@ import { Header } from "../components/Header/Header";
 import { Features } from "../components/Features/Features";
 import { Admin } from "../components/Admin/Admin";
 import { Survey } from "../components/Survey/Survey";
-import {Thanks} from "../components/Survey/Thanks/Thanks";
+import { SurveyThanks } from "../components/Survey/SurveyThanks/SurveyThanks";
+import { CreateTeam } from "../components/Admin/CreateTeam/CreateTeam";
+import { CreateSurvey } from "../components/Admin/CreateSurvey/CreateSurvey";
+import { AdminThanks } from "../components/Admin/AdminThanks/AdminThanks";
+
 
 function App() {
   return (
@@ -18,7 +22,11 @@ function App() {
           <Route exact path="/features" component={Features} />
           <Route exact path="/admin" component={Admin} />
           <Route exact path="/survey" component={Survey} />
-          <Route exact path="/thanks" component={Thanks} />
+          <Route exact path="/survey/thanks" component={SurveyThanks} />
+          <Route exact path="/admin/team-members" component={CreateTeam} />
+          <Route exact path="/admin/create-survey" component={CreateSurvey} />
+          <Route exact path="/admin/thanks" component={AdminThanks} />
+
         </Switch>
       </Router>
     </div>

@@ -5,7 +5,7 @@ import { Button, Container, Header } from "semantic-ui-react";
 export const Home = () => {
   return (
     <div>
-      <Container>
+      <Container text>
         <Header as="h1">September Survey</Header>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit
