@@ -1,7 +1,6 @@
 import * as React from "react";
-import { CreateButton } from "../CreateButton/CreateButton";
-import { SurveyThanks } from "../../Survey/SurveyThanks/SurveyThanks";
-import { Container } from "semantic-ui-react";
+import {CreateButton} from "../CreateButton/CreateButton";
+import {SurveyThanks} from "../../Survey/SurveyThanks/SurveyThanks";
 
 export const AdminThanks = () => {
   return (

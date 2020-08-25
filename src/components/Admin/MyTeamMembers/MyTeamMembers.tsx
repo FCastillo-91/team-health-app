@@ -1,13 +1,6 @@
 import * as React from "react";
-import { TeamSelector } from "../MyTeamMembers/TeamSelector";
-import {
-  Container,
-  Header,
-  Icon,
-  Dropdown,
-  Table,
-  Form,
-} from "semantic-ui-react";
+import { TeamSelector } from "./TeamSelector";
+import { Container, Form, Header, Icon, Table } from "semantic-ui-react";
 
 export const MyTeamMembers = () => {
   const teamOptions = [
@@ -20,15 +13,6 @@ export const MyTeamMembers = () => {
         <Icon name="user" />
         <Header.Content>My Team Members</Header.Content>
       </Header>
-      {/* <Header as="h3">
-        <Header.Content>2. Select Your Team</Header.Content>
-      </Header>
-      <Dropdown
-        placeholder="Select Team.."
-        fluid
-        selection
-        options={teamOptions}
-      /> */}
       <TeamSelector />
       <Header as="h3">
         <Header.Content>
