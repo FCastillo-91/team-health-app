@@ -1,20 +1,14 @@
-import { teamRef } from "./teamrefs.api";
+import { ref } from "./teamrefs.api";
 
 export interface Team {
   code: string;
   name: string;
+  id: string;
 }
 
-const resolveRef = (ref: any) => {
-  return new Promise((resolve, reject) => {
-    const onData = (snap: any) => resolve(snap.val());
-    const onError = (error: string) => reject(error);
-
-    ref.on("value", onData, onError);
+export const getAllTeams = async () => {
+  const snapshot = await ref("teams").get();
+  return snapshot.docs.map((doc) => {
+    return { name: doc.data().name, code: doc.data().code, id: doc.id }; //TODO refactor
   });
-};
-
-export const getAllTeams = async (): Promise<Team[]> => {
-  const teamsObj = (await resolveRef(teamRef())) as any;
-  return Object.entries(teamsObj).map(([key, value]) => value) as Team[];
 };

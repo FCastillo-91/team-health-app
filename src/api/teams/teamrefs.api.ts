@@ -1,8 +1,5 @@
-import { database } from "../../config/database";
+import { database } from "../config/database";
 
-const ref = (path: string) => {
-  return database.ref().child(path);
-};
-export const teamRef = () => {
-  return ref("teams");
+export const ref = (path: string) => {
+  return database.collection(path);
 };

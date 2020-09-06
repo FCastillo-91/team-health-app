@@ -7,7 +7,7 @@ type CreateButtonProps = {
   title: string;
   text: string;
   buttonLabel: string;
-  routeLink: string;
+  routeLink: any;
 };
 export const CreateButton = ({
   iconName,
