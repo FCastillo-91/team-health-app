@@ -1,14 +1,21 @@
-import { ref } from "./teamrefs.api";
+import { collectionTeamsRef } from "../ref.api";
 
 export interface Team {
   code: string;
   name: string;
   id: string;
+  survey: string;
 }
 
 export const getAllTeams = async () => {
-  const snapshot = await ref("teams").get();
+  const snapshot = await collectionTeamsRef().get();
   return snapshot.docs.map((doc) => {
-    return { name: doc.data().name, code: doc.data().code, id: doc.id }; //TODO refactor
+    const { name, code, id, survey } = doc.data();
+    return { name, code, id, survey }; //TODO refactor
   });
+};
+
+export const getTeam = async (id: string): Promise<Team | null> => {
+  const doc = await collectionTeamsRef().doc(id).get();
+  return (doc.data() as Team) || null;
 };

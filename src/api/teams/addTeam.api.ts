@@ -1,11 +1,11 @@
-import { ref } from "./teamrefs.api";
+import { collectionTeamsRef } from "../ref.api";
 import { getAllTeams } from "./readTeam.api";
 
 export const addTeam = (teamName: any, teamCode: any) => {
   getAllTeams().then((teams) => {
     const newId = `team-${teams.length + 1}`;
 
-    ref("teams")
+    collectionTeamsRef()
       .doc(newId)
       .set({
         name: teamName,

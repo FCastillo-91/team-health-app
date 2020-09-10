@@ -20,6 +20,7 @@ function App() {
           <Route exact path="/teams" component={Teams} />
           <Route exact path="/teams/create" component={CreateTeam} />
           <Route exact path="/teams/:teamId" component={TeamPage} />
+          <Route exact path="/teams/:teamId/survey" component={Survey} />
           <Route
             exact
             path="/teams/:teamId/create-survey"
