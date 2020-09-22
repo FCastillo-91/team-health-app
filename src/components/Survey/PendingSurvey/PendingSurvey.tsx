@@ -19,7 +19,7 @@ export const PendingSurvey: React.FC<PendingSurveyProps> = ({ month }) => {
           amet diam mi. Aenean ornare purus nec turpis ultricies.
         </p>
         <p>Vestibulum non elementum libero. Mauris et efficitur purus.</p>
-        <Button as={Link} to="/survey">
+        <Button as={Link} to="/teams/:teamId/survey">
           Start survey now!
         </Button>
       </Container>

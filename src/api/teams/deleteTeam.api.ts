@@ -1,8 +1,8 @@
 import { collectionTeamsRef } from "../ref.api";
 
-export const deleteTeam = (teamId: any) => {
+export const deleteTeam = (teamCode: any) => {
   collectionTeamsRef()
-    .doc(teamId)
+    .doc(teamCode)
     .delete()
     .then(function () {
       console.log("Team successfully deleted!");

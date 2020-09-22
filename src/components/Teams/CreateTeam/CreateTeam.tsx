@@ -11,8 +11,8 @@ export const CreateTeam = () => {
     setTeamNameInput("");
     setTeamCodeInput("");
   };
-  const handleAddTeam = (name: any, code: any) => {
-    addTeam(name, code);
+  const handleAddTeam = (name: any, code: any, survey: any) => {
+    addTeam(name, code, survey);
     resetInputs();
   };
 
@@ -39,7 +39,7 @@ export const CreateTeam = () => {
       />
       <Button
         onClick={() => {
-          handleAddTeam(teamNameInput, teamCodeInput);
+          handleAddTeam(teamNameInput, teamCodeInput, "default_survey");
         }}
       >
         Create Team

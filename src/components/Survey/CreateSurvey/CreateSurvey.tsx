@@ -32,7 +32,6 @@ export const CreateSurvey = () => {
   };
 
   const saveRatingType = (rating: string) => {
-    console.log({ rating });
     if (rating === "five star rating") {
       return <Rating maxRating={5} defaultRating={0} icon="star" size="huge" />;
     }

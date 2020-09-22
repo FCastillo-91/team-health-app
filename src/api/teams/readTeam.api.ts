@@ -15,7 +15,7 @@ export const getAllTeams = async () => {
   });
 };
 
-export const getTeam = async (id: string): Promise<Team | null> => {
+export const getTeam = async (id: string): Promise<Team> => {
   const doc = await collectionTeamsRef().doc(id).get();
   return (doc.data() as Team) || null;
 };

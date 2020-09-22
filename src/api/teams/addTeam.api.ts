@@ -1,21 +1,19 @@
-import { collectionTeamsRef } from "../ref.api";
-import { getAllTeams } from "./readTeam.api";
+import { database } from "../config/database";
 
-export const addTeam = (teamName: any, teamCode: any) => {
-  getAllTeams().then((teams) => {
-    const newId = `team-${teams.length + 1}`;
+export const teamsCollectionRef = () => database.collection("teams");
+export const teamRef = (id: string) => teamsCollectionRef().doc(id);
 
-    collectionTeamsRef()
-      .doc(newId)
-      .set({
-        name: teamName,
-        code: teamCode,
-      })
-      .then(function () {
-        console.log(`${teamName} created`);
-      })
-      .catch(function (error: any) {
-        console.error("Error adding document: ", error);
-      });
-  });
+export const addTeam = (teamName: any, teamCode: any, teamSurvey: any) => {
+  teamRef(teamCode)
+    .set({
+      name: teamName,
+      code: teamCode,
+      survey: teamSurvey,
+    })
+    .then(function () {
+      console.log(`${teamName} created`);
+    })
+    .catch(function (error: any) {
+      console.error("Error adding document: ", error);
+    });
 };
