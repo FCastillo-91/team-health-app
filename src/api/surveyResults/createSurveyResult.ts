@@ -1,7 +1,7 @@
 import { database } from "../config/database";
 import { Answer } from "../../components/Survey/SurveyPage";
-import { date } from "../../components/utils/getDate/getDate";
 import { calculateAverageScore } from "../../components/Survey/ScoreHelpers/ScoreHelpers";
+import { date } from "../../components/utils/dateHelpers/dateHelpers";
 
 const resultsCollectionRef = () => database.collection("results");
 const resultRef = (id: string) => resultsCollectionRef().doc(id);
