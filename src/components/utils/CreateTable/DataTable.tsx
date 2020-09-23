@@ -11,6 +11,23 @@ export interface DataTableProps {
   handleDelete: (id: string) => void;
 }
 
+export interface TableHeadersProps {
+  tableHeaders: string[];
+}
+export const TableHeaders = ({ tableHeaders }: TableHeadersProps) => {
+  return (
+    <>
+      <Table.Header>
+        {React.Children.toArray(
+          tableHeaders.map((item: any) => {
+            return <Table.HeaderCell>{item}</Table.HeaderCell>;
+          })
+        )}
+      </Table.Header>
+    </>
+  );
+};
+
 export const DataTable = ({
   tableHeaders,
   tableData,
@@ -18,15 +35,15 @@ export const DataTable = ({
   handleDelete,
   handleEdit,
 }: DataTableProps) => {
-  const generateTableHeaders = () => {
-    return (
-      <>
-        {tableHeaders.map((item, index) => {
-          return <Table.HeaderCell key={index}>{item}</Table.HeaderCell>;
-        })}
-      </>
-    );
-  };
+  // const generateTableHeaders = () => {
+  //   return (
+  //     <>
+  //       {tableHeaders.map((item, index) => {
+  //         return <Table.HeaderCell key={index}>{item}</Table.HeaderCell>;
+  //       })}
+  //     </>
+  //   );
+  // };
 
   const generateTableContent = () => {
     return (
@@ -58,9 +75,7 @@ export const DataTable = ({
   return (
     <>
       <Table tableid={tableid}>
-        <Table.Header>
-          <Table.Row>{generateTableHeaders()}</Table.Row>
-        </Table.Header>
+        <TableHeaders tableHeaders={tableHeaders} />
         <Table.Body>{generateTableContent()}</Table.Body>
       </Table>
     </>

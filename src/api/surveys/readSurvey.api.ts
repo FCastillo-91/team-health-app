@@ -32,12 +32,3 @@ export const getTeamSurvey = async (teamId: any) => {
     };
   }
 };
-
-//getSurvey
-
-//get reference to the Survey
-//get reference to Questions
-//.get the survey
-//.get the questions
-//join into an object
-//refactor types

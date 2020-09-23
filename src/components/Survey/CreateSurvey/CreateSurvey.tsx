@@ -22,6 +22,14 @@ export const CreateSurvey = () => {
     { text: "Frictionless Merchandising", value: "teamId_2" },
   ];
 
+    // 1. Read in default questions have edit buttons next to questions
+    // 2. Add Question Feature
+    // 3. Use this survey for all future surveys checkbox?
+    // 4. Batch commit create new survey, add questions to that survey, update team survey field if checkboxed to use for future (naming convention)
+    // On Team Page
+    // Show list of all the surveys connected with this team
+    // Highlight which survey is the currently active survey
+
   const saveQuestion = (question: string, ratingSelection: string) => {
     setNewQuestionForm(false);
     const myQlist = questionList;

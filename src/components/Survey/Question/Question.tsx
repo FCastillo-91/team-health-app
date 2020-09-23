@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Rating } from "semantic-ui-react";
+import { Container, Rating, Segment } from "semantic-ui-react";
 
 export interface QuestionProps {
   question: string;
@@ -11,22 +11,23 @@ export const Question = ({
   onChange = () => {},
   value,
 }: QuestionProps) => {
-
   function handleChangeOnRate(event: any, { rating }: any) {
     onChange(rating);
   }
 
   return (
-    <Container textAlign="left" style={{ padding: "20px" }}>
-      <h4>{question}</h4>
-      <Rating
-        value={value}
-        onRate={handleChangeOnRate}
-        maxRating={5}
-        defaultRating={value}
-        icon="star"
-        size="huge"
-      />
+    <Container textAlign="left" style={{padding: "10px"}}>
+      <Segment raised>
+        <h3>{question}</h3>
+        <Rating
+          value={value}
+          onRate={handleChangeOnRate}
+          maxRating={5}
+          defaultRating={value}
+          icon="star"
+          size="huge"
+        />
+      </Segment>
     </Container>
   );
 };

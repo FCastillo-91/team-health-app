@@ -74,7 +74,7 @@ export const SurveyPage = () => {
 
   return (
     <Container>
-      <h1>{survey?.team}</h1>
+      <h1>{`${survey?.team} Health Survey`}</h1>
       {survey?.questions?.map((question: any, index: any) => {
         return (
           <div>

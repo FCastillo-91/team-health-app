@@ -3,21 +3,20 @@ import { Answer } from "../../components/Survey/SurveyPage";
 import { calculateAverageScore } from "../../components/Survey/ScoreHelpers/ScoreHelpers";
 import { date } from "../../components/utils/dateHelpers/dateHelpers";
 
-const resultsCollectionRef = () => database.collection("results");
+export const resultsCollectionRef = () => database.collection("results");
 const resultRef = (id: string) => resultsCollectionRef().doc(id);
 const answersCollectionRef = (resultId: string) =>
   resultRef(resultId).collection("answers");
 const answerRef = (answerId: string, resultId: string) =>
   answersCollectionRef(resultId).doc(answerId);
 
-export const createResultsDocId = (teamId: string) => {
+export const createResultsRefId = (teamId: string) => {
   return `${teamId}-${date()}`;
 };
 
 export const addAnswers = async (teamId: string, answers: Answer[]) => {
-  const resultsId = createResultsDocId(teamId);
+  const resultsId = createResultsRefId(teamId);
   const result = await resultRef(resultsId).get();
-
   const score = calculateAverageScore(answers);
 
   if (!result.exists) {
@@ -43,7 +42,7 @@ export const addAnswers = async (teamId: string, answers: Answer[]) => {
 };
 
 export const createResultsDoc = (teamId: string, data: any = {}) => {
-  const resultsId = createResultsDocId(teamId);
+  const resultsId = createResultsRefId(teamId);
 
   return resultsCollectionRef()
     .doc(resultsId)
@@ -53,3 +52,5 @@ export const createResultsDoc = (teamId: string, data: any = {}) => {
       ...data,
     });
 };
+
+
