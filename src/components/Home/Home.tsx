@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 export const Home = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<string>("");
-
   const history = useHistory();
 
   useEffect(() => {

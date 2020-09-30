@@ -1,17 +1,19 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { CreateButton } from "../utils/CreateButton/CreateButton";
-import { Container, Divider, Header, Segment, Table } from "semantic-ui-react";
-import { PageHeader } from "../utils/PageHeader/PageHeader";
-import { getAllResultsDataPerTeam } from "../../api/surveyResults/readSurveyResult";
-import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
-import { getTeam } from "../../api/teams/readTeam.api";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import {CreateButton} from "../utils/CreateButton/CreateButton";
+import {Container, Divider, Header, Segment, Table} from "semantic-ui-react";
+import {PageHeader} from "../utils/PageHeader/PageHeader";
+import {getAllResultsDataPerTeam} from "../../api/surveyResults/readSurveyResult";
+import {GenerateTableHeaders} from "../utils/CreateTable/DataTable";
+import {getTeam} from "../../api/teams/readTeam.api";
+import {Survey} from "../Survey/SurveyPage";
 
 export const TeamPage = () => {
   const { teamId } = useParams();
   const [surveyResults, setSurveyResults] = useState();
   const [isDefault, setIsDefault] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const hasDefaultSurvey = async () => {
     const team = await getTeam(teamId);
@@ -23,7 +25,9 @@ export const TeamPage = () => {
   useEffect(() => {
     getAllResultsDataPerTeam(teamId).then((results) => {
       setSurveyResults(results);
-      hasDefaultSurvey();
+    });
+    hasDefaultSurvey().then(() => {
+      setIsLoading(false);
     });
   }, []);
 
@@ -37,15 +41,18 @@ export const TeamPage = () => {
       <Container>
         <PageHeader iconLabel="user" content={`${teamId} Team Page`} />
         <Segment textAlign="left">
-          <p>
-            Your team has a <b>{isDefault ? "default" : "custom"}</b> survey
-            assigned
-          </p>
+          {!isLoading && (
+            <p>
+              Your team has a <b>{isDefault ? "default" : "custom"}</b> survey
+              assigned
+            </p>
+          )}
         </Segment>
         <Divider />
         <Header as="h3" textAlign="left">
           Survey Scores
         </Header>
+
         <Table celled>
           <GenerateTableHeaders
             tableHeaders={["Survey", "Team Health Score", "No. of Respondents"]}

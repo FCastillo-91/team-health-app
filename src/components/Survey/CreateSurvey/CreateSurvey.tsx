@@ -1,126 +1,80 @@
 import * as React from "react";
 import { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  Container,
-  Form,
-  Input,
-  List,
-  Rating,
-  Select,
-} from "semantic-ui-react";
+import { Button, Container, Form } from "semantic-ui-react";
+import { PageHeader } from "../../utils/PageHeader/PageHeader";
+import { NewQuestion } from "./NewQuestion/NewQuestion";
+
+export interface Question {
+  question: string;
+}
 
 export const CreateSurvey = () => {
-  const [newQuestionForm, setNewQuestionForm] = useState(false);
-  const [questionList, setQuestionList] = useState([]);
-  const [questionInput, setQuestionInput] = useState("");
-  const [ratingSelection, setRatingSelection] = useState("five star rating");
+  const [listOfQuestions, setListOfQuestions] = useState([
+    { question: "", questionId: null },
+  ]);
 
-  const teamOptions = [
-    { text: "View My Booking", value: "teamId_1" },
-    { text: "Frictionless Merchandising", value: "teamId_2" },
-  ];
+  // 4. Batch commit create new survey, add questions to that survey, update team survey field if checkboxed to use for future (naming convention)
 
-    // 1. Read in default questions have edit buttons next to questions
-    // 2. Add Question Feature
-    // 3. Use this survey for all future surveys checkbox?
-    // 4. Batch commit create new survey, add questions to that survey, update team survey field if checkboxed to use for future (naming convention)
-    // On Team Page
-    // Show list of all the surveys connected with this team
-    // Highlight which survey is the currently active survey
-
-  const saveQuestion = (question: string, ratingSelection: string) => {
-    setNewQuestionForm(false);
-    const myQlist = questionList;
-    // @ts-ignore
-    myQlist.push(question);
-    setQuestionList(myQlist);
-    saveRatingType(ratingSelection);
+  const handleCreateSurvey = () => {
+    console.log("Submitting Survey to DB");
   };
 
-  const saveRatingType = (rating: string) => {
-    if (rating === "five star rating") {
-      return <Rating maxRating={5} defaultRating={0} icon="star" size="huge" />;
-    }
-    return "Select 0-5 Score";
+  const addNewQuestion = (e: any) => {
+    const currentQuestions = listOfQuestions;
+    const addToCurrentQuestions = [
+      ...currentQuestions,
+      { question: e.target.value, questionId: null },
+    ];
+    setListOfQuestions(addToCurrentQuestions);
   };
 
-  let showForm = (
-    <Button onClick={() => setNewQuestionForm(true)}>Add Question</Button>
-  );
-  if (newQuestionForm) {
-    showForm = (
-      <Form>
-        <Form.Group widths="equal">
-          <Form.Field
-            control={Input}
-            label="Question 1"
-            placeholder="Type question here..."
-            value={questionInput}
-            onChange={(e: any) => {
-              setQuestionInput(e.target.value);
-            }}
-          />
-          <Form.Field
-            label="Select Response Type"
-            control="select"
-            placeholder="Select response type.."
-            value={ratingSelection}
-            onChange={(e: any) => {
-              setRatingSelection(e.target.value);
-            }}
-          >
-            <option value="five star rating">Score 0 - 5</option>
-            <option value="other rating">Other..</option>
-          </Form.Field>
-        </Form.Group>
-        <Button
-          onClick={() => {
-            saveQuestion(questionInput, ratingSelection);
-          }}
-        >
-          Save
-        </Button>
-        <Button onClick={() => setNewQuestionForm(false)}>Cancel</Button>
-      </Form>
-    );
-  }
+  const deleteQuestion = (index: number) => {
+    const currentQuestions = listOfQuestions;
+    const updatedQuestionView = currentQuestions.filter((question, i) => {
+      return index !== i;
+    });
+    setListOfQuestions(updatedQuestionView);
+  };
+
+  const handleInputChange = (questionText: any, index: number) => {
+    const updateInputText = [] as any;
+    listOfQuestions.forEach((question, i) => {
+      if (index === i) {
+        updateInputText.push({ question: questionText, questionId: null });
+      } else {
+        updateInputText.push(question);
+      }
+    });
+    setListOfQuestions(updateInputText);
+  };
 
   return (
     <Container>
-      <h1>Create Survey Page</h1>
-      <Form>
-        <Form.Field
-          control={Select}
-          label="Select Your Team"
-          options={teamOptions}
-          placeholder="Select team.."
-        />
-        <Form.Field control={Checkbox} label="Set as default monthly survey" />
-        {showForm}
-      </Form>
-      <Container>
-        <List ordered>
-          {questionList.map((question: any, index) => {
-            return (
-              <List.Item as="p" key={`question-${index}`}>
-                {question}
-                <div>
-                  <Rating
-                    maxRating={5}
-                    defaultRating={0}
-                    icon="star"
-                    size="huge"
-                  />
-                </div>
-              </List.Item>
-            );
-          })}
-        </List>
-      </Container>
+      <PageHeader
+        iconLabel={"pencil alternate"}
+        content={"Personalise Your Survey"}
+      />
+      <Form
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleCreateSurvey();
+        }}
+      >
+        {listOfQuestions.map((question, index) => {
+          return (
+            <NewQuestion
+              key={`question-${index}`}
+              index={index}
+              inputValue={question.question}
+              onChange={handleInputChange}
+              onDelete={deleteQuestion}
+            />
+          );
+        })}
+        <Button onClick={addNewQuestion}>Add Question</Button>
 
-      <Button>Save</Button>
+        <Button>Save</Button>
+      </Form>
     </Container>
   );
 };

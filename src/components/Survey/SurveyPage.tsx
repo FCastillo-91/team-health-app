@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import {useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
 import { Question } from "./Question/Question";
 import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
