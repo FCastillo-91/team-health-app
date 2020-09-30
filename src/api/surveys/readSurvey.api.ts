@@ -1,10 +1,10 @@
 import { getTeam } from "../teams/readTeam.api";
 import { collectionQuestionsRef, collectionSurveysRef } from "../ref.api";
 
-export const getAllSurveys = async () => {
+export const getSurveyType = async () => {
   const surveyRefs = collectionSurveysRef();
   const getAllSurveys = await surveyRefs.get();
-  getAllSurveys.forEach((surveys) => {
+  return getAllSurveys.docs.map((surveys) => {
     return surveys.data();
   });
 };

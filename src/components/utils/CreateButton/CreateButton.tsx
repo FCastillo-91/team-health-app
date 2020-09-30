@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Header, Icon, Segment } from "semantic-ui-react";
+import { Button, Container, Header, Icon, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 type CreateButtonProps = {
@@ -17,13 +17,17 @@ export const CreateButton = ({
   routeLink,
 }: CreateButtonProps) => {
   return (
-    <Segment placeholder>
-      <Header icon>
-        <Icon name={iconName} />
-        {title}
-      </Header>
-      <p>{text}</p>
-      <Button as={Link} to={routeLink}>{buttonLabel}</Button>
-    </Segment>
+    <Container>
+      <Segment placeholder>
+        <Header icon>
+          <Icon name={iconName} />
+          {title}
+        </Header>
+        <p>{text}</p>
+        <Button as={Link} to={routeLink}>
+          {buttonLabel}
+        </Button>
+      </Segment>
+    </Container>
   );
 };

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
 import { Question } from "./Question/Question";
 import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
@@ -29,6 +29,7 @@ export const SurveyPage = () => {
   const [survey, setSurvey] = useState<Survey | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [answers, setAnswers] = useState<Answer[]>([]);
+  const history = useHistory();
 
   const answerQuestion = (answer: Answer) => {
     if (answers.find((item) => item.question_id === answer.question_id)) {
@@ -56,6 +57,7 @@ export const SurveyPage = () => {
 
   const submitAnswers = async () => {
     await addAnswers(teamId, answers);
+    history.push(`/survey/thanks`);
   };
 
   useEffect(() => {

@@ -1,15 +1,16 @@
 import * as React from "react";
-import { Button, Container, Header } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Container, Header, Segment } from "semantic-ui-react";
 
 export const SurveyThanks = () => {
   return (
-    <Container text color="grey">
-      <Header as="h1">Thank you!</Header>
-      <p> Vestibulum non elementum libero. Mauris et efficitur purus.</p>
-      <Button as={Link} to="/">
-        Home
-      </Button>
+    <Container>
+      <Segment>
+        <Header as="h1">Your answers have been submitted successfully!</Header>
+        <p>
+          Thanks for taking the time to complete your Team Health Survey this
+          month.
+        </p>
+      </Segment>
     </Container>
   );
 };

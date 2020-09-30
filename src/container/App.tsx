@@ -26,7 +26,6 @@ function App() {
             path="/teams/:teamId/create-survey"
             component={CreateSurvey}
           />
-          {/*<Route exact path="/survey" component={SurveyPage} />*/}
           <Route exact path="/survey/thanks" component={SurveyThanks} />
         </Switch>
       </Router>

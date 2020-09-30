@@ -6,23 +6,11 @@ export const getAllResultsDataPerTeam = async (teamId: string) => {
     .get();
   if (monthlyTeamResults) {
     return monthlyTeamResults.docs.map((doc) => {
-      const { date, team, submissionCount, score } = doc.data();
       return {
-        date,
-        team,
-        submissionCount,
-        score,
-        docId: doc.id,
+        ...doc.data(),
+        id: doc.id,
       };
     });
   }
 };
 
-export const getScoresPerTeam = async (teamId: string) => {
-  const results = await getAllResultsDataPerTeam(teamId);
-  if (results) {
-    results.map((result) => {
-      return result.score;
-    });
-  }
-};
