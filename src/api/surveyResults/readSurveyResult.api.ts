@@ -1,4 +1,4 @@
-import {resultsCollectionRef} from "./createSurveyResult";
+import {resultsCollectionRef} from "./createSurveyResult.api";
 
 export const getAllResultsDataPerTeam = async (teamId: string) => {
   const monthlyTeamResults = await resultsCollectionRef()

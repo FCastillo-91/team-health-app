@@ -1,0 +1,30 @@
+import { database } from "../config/database";
+
+const surveysCollectionRef = () => database.collection("surveys");
+
+const surveyRef = (id: any) => surveysCollectionRef().doc(id);
+
+const surveyQuestionsCollectionRef = (surveyId: any) =>
+  surveyRef(surveyId).collection("questions");
+
+export const createSurveysRefId = (teamId: string) => {
+  return `${teamId}_custom_survey`;
+};
+
+export const addQuestionsToSurvey = async (teamId: string, questions: any) => {
+  await createSurveyDoc(teamId);
+  const customSurveyId = createSurveysRefId(teamId);
+  const batch = database.batch();
+  questions.forEach((question: any) => {
+    const ref = surveyQuestionsCollectionRef(customSurveyId).doc();
+    batch.set(ref, { question: question });
+  });
+  await batch.commit();
+};
+
+export const createSurveyDoc = (teamId: string) => {
+  const customSurveyId = createSurveysRefId(teamId);
+  return surveysCollectionRef().doc(customSurveyId).set({
+    title: customSurveyId,
+  });
+};

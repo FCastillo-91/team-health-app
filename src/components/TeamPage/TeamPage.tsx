@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import {CreateButton} from "../utils/CreateButton/CreateButton";
 import {Container, Divider, Header, Segment, Table} from "semantic-ui-react";
 import {PageHeader} from "../utils/PageHeader/PageHeader";
-import {getAllResultsDataPerTeam} from "../../api/surveyResults/readSurveyResult";
+import {getAllResultsDataPerTeam} from "../../api/surveyResults/readSurveyResult.api";
 import {GenerateTableHeaders} from "../utils/CreateTable/DataTable";
 import {getTeam} from "../../api/teams/readTeam.api";
 import {Survey} from "../Survey/SurveyPage";
@@ -31,22 +31,18 @@ export const TeamPage = () => {
     });
   }, []);
 
-  // 1. Add a table showing Surveys section only show last 3 if there are even 3 created
-  // 2. Read all surveys created for this team
-
-  // 4. Have an info icon to hover or open a modal to show the questions for any given survey
-
   return (
     <>
       <Container>
-        <PageHeader iconLabel="user" content={`${teamId} Team Page`} />
+        <PageHeader iconLabel="heartbeat" content={`${teamId} Team Health Page`} />
         <Segment textAlign="left">
           {!isLoading && (
             <p>
               Your team has a <b>{isDefault ? "default" : "custom"}</b> survey
-              assigned
+            assigned
             </p>
           )}
+          <p>Need a reminder of your current survey questions? See here</p>
         </Segment>
         <Divider />
         <Header as="h3" textAlign="left">
@@ -62,7 +58,7 @@ export const TeamPage = () => {
               return (
                 <Table.Row key={index}>
                   <Table.Cell>{result.id}</Table.Cell>
-                  <Table.Cell>{result.score}</Table.Cell>
+                  <Table.Cell>{result.score.toFixed(2)}</Table.Cell>
                   <Table.Cell>{result.submissionCount}</Table.Cell>
                 </Table.Row>
               );

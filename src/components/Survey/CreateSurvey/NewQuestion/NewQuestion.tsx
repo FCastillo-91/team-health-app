@@ -3,7 +3,7 @@ import { Button, Divider, Input } from "semantic-ui-react";
 
 export interface NewQuestionProps {
   index: number;
-  inputValue: string;
+  inputValue: any;
   onChange: (inputValue: string, e: any) => void;
   onDelete: (index: number) => void;
 }
@@ -15,11 +15,10 @@ export const NewQuestion = ({
   onDelete,
 }: NewQuestionProps) => {
   const handleInputChange = (event: any, index: number) => {
-      console.log({handleInputChange: event.target.value, index});
-        onChange(event.target.value, index);
+    onChange(event.target.value, index);
   };
 
-  const handleDelete = (index: number) =>{
+  const handleDelete = (index: number) => {
     onDelete(index);
   };
 

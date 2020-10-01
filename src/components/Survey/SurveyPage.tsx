@@ -4,17 +4,13 @@ import { useHistory, useParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
 import { Question } from "./Question/Question";
 import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
-import { addAnswers } from "../../api/surveyResults/createSurveyResult";
+import { addAnswers } from "../../api/surveyResults/createSurveyResult.api";
 
 export interface Survey {
   team: string;
   code: string;
   survey: string;
-  questions: Question[];
-}
-
-export interface Question {
-  question: string;
+  questions: string[];
 }
 
 export interface Answer {
@@ -76,7 +72,7 @@ export const SurveyPage = () => {
 
   return (
     <Container>
-      <h1>{`${survey?.team} Health Survey`}</h1>
+      <h1>{`${survey?.team} Team Health Survey`}</h1>
       {survey?.questions?.map((question: any, index: any) => {
         return (
           <div>
@@ -95,7 +91,7 @@ export const SurveyPage = () => {
           </div>
         );
       })}
-      <Button onClick={() => submitAnswers()}>Submit</Button>
+      <Button disabled={answers.length !== survey.questions.length} onClick={() => submitAnswers()}>Submit</Button>
     </Container>
   );
 };

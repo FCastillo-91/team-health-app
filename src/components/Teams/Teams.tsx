@@ -19,7 +19,7 @@ export const Teams = () => {
 
   return (
     <Container textAlign="left">
-      <PageHeader iconLabel="user" content="Teams" />
+      <PageHeader iconLabel="users" content="Teams" />
       <GenerateTable
         tableHeaders={teamTableHeadings}
         tableData={teams}
