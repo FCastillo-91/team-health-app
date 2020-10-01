@@ -13,7 +13,7 @@ export const Home = () => {
     getAllTeams().then((teams) => {
       setTeams(teams);
     });
-  }, []);
+  }, [setTeams]);
 
   function handleSetTeam(teamCode: string) {
     setSelectedTeam(teamCode);

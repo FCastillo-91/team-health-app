@@ -1,19 +1,26 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {CreateButton} from "../utils/CreateButton/CreateButton";
-import {Container, Divider, Header, Segment, Table} from "semantic-ui-react";
-import {PageHeader} from "../utils/PageHeader/PageHeader";
-import {getAllResultsDataPerTeam} from "../../api/surveyResults/readSurveyResult.api";
-import {GenerateTableHeaders} from "../utils/CreateTable/DataTable";
-import {getTeam} from "../../api/teams/readTeam.api";
-import {Survey} from "../Survey/SurveyPage";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CreateButton } from "../utils/CreateButton/CreateButton";
+import { Container, Divider, Header, Segment, Table } from "semantic-ui-react";
+import { PageHeader } from "../utils/PageHeader/PageHeader";
+import { getAllResultsDataPerTeam } from "../../api/surveyResults/readSurveyResult.api";
+import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
+import { getTeam } from "../../api/teams/readTeam.api";
+import { Survey } from "../Survey/SurveyPage";
+import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
+
+interface Question {
+  id: string;
+  question: string;
+}
 
 export const TeamPage = () => {
   const { teamId } = useParams();
   const [surveyResults, setSurveyResults] = useState();
   const [isDefault, setIsDefault] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([]);
 
   const hasDefaultSurvey = async () => {
     const team = await getTeam(teamId);
@@ -29,20 +36,29 @@ export const TeamPage = () => {
     hasDefaultSurvey().then(() => {
       setIsLoading(false);
     });
+    getTeamSurvey(teamId).then((results) => {
+      setSurveyQuestions(results?.questions);
+    });
   }, []);
 
   return (
     <>
       <Container>
-        <PageHeader iconLabel="heartbeat" content={`${teamId} Team Health Page`} />
+        <PageHeader
+          iconLabel="heartbeat"
+          content={`${teamId} Team Health Page`}
+        />
         <Segment textAlign="left">
           {!isLoading && (
             <p>
               Your team has a <b>{isDefault ? "default" : "custom"}</b> survey
-            assigned
+              assigned
             </p>
           )}
-          <p>Need a reminder of your current survey questions? See here</p>
+          <p>Need a reminder of your current survey questions?</p>
+          {surveyQuestions?.map((question: Question) => {
+            return <li>{question.question}</li>;
+          })}
         </Segment>
         <Divider />
         <Header as="h3" textAlign="left">

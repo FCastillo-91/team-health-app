@@ -61,7 +61,7 @@ export const SurveyPage = () => {
       setSurvey(teamSurvey);
       setIsLoading(false);
     });
-  }, []);
+  }, [setSurvey, teamId]);
 
   if (isLoading) {
     return <>Just Loading..</>;
