@@ -7,8 +7,8 @@ const surveyRef = (id: any) => surveysCollectionRef().doc(id);
 const surveyQuestionsCollectionRef = (surveyId: any) =>
   surveyRef(surveyId).collection("questions");
 
-export const createSurveysRefId = (teamId: string) => {
-  return `${teamId}_custom_survey`;
+export const createSurveysRefId = (teamId: string ) => {
+  return `${teamId}_custom_${new Date()}`;
 };
 
 export const addQuestionsToSurvey = async (teamId: string, questions: any) => {
