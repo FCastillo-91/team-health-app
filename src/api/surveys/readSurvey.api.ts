@@ -1,5 +1,13 @@
 import { getTeam } from "../teams/readTeam.api";
-import { collectionQuestionsRef, collectionSurveysRef } from "../ref.api";
+import { database } from "../config/database";
+
+export const collectionSurveysRef = () => {
+  return database.collection("surveys");
+};
+
+export const collectionQuestionsRef = (id: any) => {
+  return collectionSurveysRef().doc(id).collection("questions");
+};
 
 export const getSurveyType = async () => {
   const surveyRefs = collectionSurveysRef();
@@ -11,7 +19,7 @@ export const getSurveyType = async () => {
 
 export const getQuestions = async (surveyId: any) => {
   const questionRefs = collectionQuestionsRef(surveyId);
-  const getAllQuestions = await questionRefs.get();
+  const getAllQuestions = await questionRefs.orderBy("order").get();
   return getAllQuestions.docs.map((questions) => {
     return {
       id: questions.id,
@@ -24,6 +32,7 @@ export const getTeamSurvey = async (teamId: any) => {
   const team = await getTeam(teamId);
   if (team) {
     const surveyQuestions: any = await getQuestions(team?.survey);
+
     return {
       team: team?.name,
       code: team?.code,
