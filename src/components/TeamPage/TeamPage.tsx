@@ -1,8 +1,15 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CreateButton } from "../utils/CreateButton/CreateButton";
-import { Container, Divider, Header, Segment, Table } from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Divider,
+  Header,
+  Segment,
+  Table,
+} from "semantic-ui-react";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { getAllResultsDataPerTeam } from "../../api/surveyResults/readSurveyResult.api";
 import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
@@ -10,7 +17,7 @@ import { getTeam } from "../../api/teams/readTeam.api";
 import { Survey } from "../Survey/SurveyPage";
 import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
 
-interface Question {
+export interface Question {
   id: string;
   question: string;
 }
@@ -56,9 +63,12 @@ export const TeamPage = () => {
             </p>
           )}
           <p>Need a reminder of your current survey questions?</p>
-          {surveyQuestions?.map((question: Question) => {
-            return <li>{question.question}</li>;
+          {surveyQuestions?.map((question: Question, index) => {
+            return <li key={index}>{question.question}</li>;
           })}
+          <Button as={Link} to={`/teams/${teamId}/survey-edit`}>
+            Edit Questions
+          </Button>
         </Segment>
         <Divider />
         <Header as="h3" textAlign="left">

@@ -75,10 +75,9 @@ export const SurveyPage = () => {
       <h1>{`${survey?.team} Team Health Survey`}</h1>
       {survey?.questions?.map((question: any, index: any) => {
         return (
-          <div>
+          <div key={index}>
             <Question
               question={question.question}
-              key={index}
               value={getValueForQuestion(question.id)}
               onChange={(score) =>
                 answerQuestion({
@@ -91,7 +90,12 @@ export const SurveyPage = () => {
           </div>
         );
       })}
-      <Button disabled={answers.length !== survey.questions.length} onClick={() => submitAnswers()}>Submit</Button>
+      <Button
+        disabled={answers.length !== survey.questions.length}
+        onClick={() => submitAnswers()}
+      >
+        Submit
+      </Button>
     </Container>
   );
 };

@@ -9,6 +9,7 @@ import { CreateSurvey } from "../components/Survey/CreateSurvey/CreateSurvey";
 import { Teams } from "../components/Teams/Teams";
 import { TeamPage } from "../components/TeamPage/TeamPage";
 import { CreateTeam } from "../components/Teams/CreateTeam/CreateTeam";
+import {EditQuestions} from "../components/EditQuestions/EditQuestions";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route exact path="/teams/create" component={CreateTeam} />
           <Route exact path="/teams/:teamId" component={TeamPage} />
           <Route exact path="/teams/:teamId/survey" component={SurveyPage} />
+          <Route exact path="/teams/:teamId/survey-edit" component={EditQuestions} />
+
           <Route
             exact
             path="/teams/:teamId/create-survey"
