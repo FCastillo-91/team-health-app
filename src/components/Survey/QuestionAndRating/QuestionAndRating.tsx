@@ -1,16 +1,17 @@
 import * as React from "react";
 import { Container, Rating, Segment } from "semantic-ui-react";
 
-export interface QuestionProps {
+export interface QuestionAndRatingProps {
   question: string;
   onChange?: (rating: number) => void;
   value: number;
 }
-export const Question = ({
+export const QuestionAndRating = ({
   question,
   onChange = () => {},
   value,
-}: QuestionProps) => {
+}: QuestionAndRatingProps) => {
+
   function handleChangeOnRate(event: any, { rating }: any) {
     onChange(rating);
   }

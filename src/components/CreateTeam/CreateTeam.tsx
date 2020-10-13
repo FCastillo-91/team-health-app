@@ -1,16 +1,9 @@
 import * as React from "react";
-import {
-  Button,
-  Container,
-  Form,
-  Header,
-  Input,
-  Segment,
-} from "semantic-ui-react";
-import { addTeam } from "../../../api/teams/addTeam.api";
 import { useState } from "react";
+import { Button, Container, Form, Input } from "semantic-ui-react";
+import { addTeam } from "../../api/teams/addTeam.api";
 import { useHistory } from "react-router-dom";
-import { PageHeader } from "../../utils/PageHeader/PageHeader";
+import { PageHeader } from "../utils/PageHeader/PageHeader";
 
 export const CreateTeam = () => {
   const [teamNameInput, setTeamNameInput] = useState("");
@@ -21,8 +14,9 @@ export const CreateTeam = () => {
     setTeamNameInput("");
     setTeamCodeInput("");
   };
-  const handleAddTeam = (name: any, code: any, survey: any) => {
-    addTeam(name, code, survey);
+
+  const handleAddTeam = async (name: string, code: string, survey: string) => {
+    await addTeam(name, code, survey);
     resetInputs();
     goToTeamPage();
   };
@@ -35,7 +29,7 @@ export const CreateTeam = () => {
   };
 
   return (
-    <Container >
+    <Container>
       <PageHeader iconLabel="user plus" content="Create Your Team" />
       <Form style={{ justifyItems: "left" }}>
         <Input
@@ -56,7 +50,6 @@ export const CreateTeam = () => {
             setTeamCodeInput(e.target.value);
           }}
         />
-
         <p>You will be assigned a default survey when you create your team.</p>
         <Button
           disabled={!teamCodeInput || !teamNameInput}

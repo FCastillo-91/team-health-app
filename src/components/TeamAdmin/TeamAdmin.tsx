@@ -1,52 +1,44 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { CreateButton } from "../utils/CreateButton/CreateButton";
-import {
-  Button,
-  Container,
-  Divider,
-  Header,
-  Segment,
-  Table,
-} from "semantic-ui-react";
+import { Container, Divider, Header, Segment, Table } from "semantic-ui-react";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { getAllResultsDataPerTeam } from "../../api/surveyResults/readSurveyResult.api";
 import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
 import { getTeam } from "../../api/teams/readTeam.api";
-import { Survey } from "../Survey/SurveyPage";
-import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
+import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
 
-export interface Question {
-  id: string;
-  question: string;
-}
-
-export const TeamPage = () => {
+export const TeamAdmin = () => {
   const { teamId } = useParams();
   const [surveyResults, setSurveyResults] = useState();
   const [isDefault, setIsDefault] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([]);
 
-  const hasDefaultSurvey = async () => {
-    const team = await getTeam(teamId);
-    if (team.survey !== "default_survey") {
-      setIsDefault(false);
-    }
-  };
-
   useEffect(() => {
-    getAllResultsDataPerTeam(teamId).then((results) => {
-      setSurveyResults(results);
-    });
-    hasDefaultSurvey().then(() => {
+    (async () => {
+      const team = await getTeam(teamId);
+
+      if(!team) return; //display error not team exist
+
+      const teamSurvey = await getTeamSurvey(team);
+      const teamResults = await getAllResultsDataPerTeam(teamId);
+
+      if (team?.survey !== "default_survey") {
+        setIsDefault(false);
+      }
+
+      if (teamSurvey) {
+        setSurveyQuestions(teamSurvey?.questions);
+      }
+
+      if (teamResults) {
+        setSurveyResults(teamResults);
+      }
       setIsLoading(false);
-    });
-    getTeamSurvey(teamId).then((results) => {
-      setSurveyQuestions(results?.questions);
-    });
-  }, []);
+    })();
+  }, [teamId]);
 
   return (
     <>
@@ -66,9 +58,6 @@ export const TeamPage = () => {
           {surveyQuestions?.map((question: Question, index) => {
             return <li key={index}>{question.question}</li>;
           })}
-          <Button as={Link} to={`/teams/${teamId}/survey-edit`}>
-            Edit Questions
-          </Button>
         </Segment>
         <Divider />
         <Header as="h3" textAlign="left">

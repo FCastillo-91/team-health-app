@@ -1,13 +1,15 @@
-import { getTeam } from "../teams/readTeam.api";
-import { database } from "../config/database";
+import {Team} from "../teams/readTeam.api";
+import {database} from "../config/database";
 
-export const collectionSurveysRef = () => {
-  return database.collection("surveys");
-};
+export interface Question {
+  question: string;
+  order?: string;
+  id: string;
+}
 
-export const collectionQuestionsRef = (id: any) => {
-  return collectionSurveysRef().doc(id).collection("questions");
-};
+export const collectionSurveysRef = () => database.collection("surveys");
+export const collectionQuestionsRef = (id: any) =>
+  collectionSurveysRef().doc(id).collection("questions");
 
 export const getSurveyType = async () => {
   const surveyRefs = collectionSurveysRef();
@@ -17,7 +19,7 @@ export const getSurveyType = async () => {
   });
 };
 
-export const getQuestions = async (surveyId: any) => {
+export const getQuestions = async (surveyId: string) => {
   const questionRefs = collectionQuestionsRef(surveyId);
   const getAllQuestions = await questionRefs.orderBy("order").get();
   return getAllQuestions.docs.map((questions) => {
@@ -28,16 +30,12 @@ export const getQuestions = async (surveyId: any) => {
   });
 };
 
-export const getTeamSurvey = async (teamId: any) => {
-  const team = await getTeam(teamId);
-  if (team) {
-    const surveyQuestions: any = await getQuestions(team?.survey);
-
-    return {
-      team: team?.name,
-      code: team?.code,
-      survey: team?.survey,
-      questions: surveyQuestions,
-    };
-  }
+export const getTeamSurvey = async (team: Team) => {
+  const surveyQuestions = await getQuestions(team.survey) as Question[];
+  return {
+    team: team.name,
+    code: team.code,
+    survey: team.survey,
+    questions: surveyQuestions,
+  };
 };

@@ -1,23 +1,25 @@
 import * as React from "react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { Button, Container, Form } from "semantic-ui-react";
-import { PageHeader } from "../../utils/PageHeader/PageHeader";
-import { NewQuestion } from "./NewQuestion/NewQuestion";
-import { addQuestionsToSurvey } from "../../../api/surveys/createSurvey.api";
-import { updateTeamSurvey } from "../../../api/teams/updateTeam.api";
+import { PageHeader } from "../utils/PageHeader/PageHeader";
+import { QuestionInput } from "./QuestionInput/QuestionInput";
+import { addQuestionsToSurvey } from "../../api/surveys/createSurvey.api";
+import { updateTeamSurvey } from "../../api/teams/updateTeam.api";
+import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
+import {getTeam} from "../../api/teams/readTeam.api";
 
-interface Question {
-  question: string;
-}
-
-export const CreateSurvey = () => {
+export const PersonaliseSurvey = () => {
   const { teamId } = useParams();
-  const [listOfQuestions, setListOfQuestions] = useState<Question[]>([]);
+  const [listOfQuestions, setListOfQuestions] = useState<Question[]>([
+    { question: "", order: "", id: "" },
+  ]);
+  const history = useHistory();
 
-  const handleSave = () => {
-    addQuestionsToSurvey(teamId, listOfQuestions);
-    updateTeamSurvey(teamId);
+  const handleSave = async () => {
+    await addQuestionsToSurvey(teamId, listOfQuestions);
+    await updateTeamSurvey(teamId);
+    history.push(`/teams/${teamId}`);
   };
 
   const addNewQuestion = (e: any) => {
@@ -28,7 +30,7 @@ export const CreateSurvey = () => {
 
   const deleteQuestion = (index: number) => {
     const currentQuestions = listOfQuestions;
-    const updatedQuestionView = currentQuestions.filter((question, i) => {
+    const updatedQuestionView = currentQuestions?.filter((question, i) => {
       return index !== i;
     });
     setListOfQuestions(updatedQuestionView);
@@ -46,6 +48,16 @@ export const CreateSurvey = () => {
     setListOfQuestions(updateInputText);
   };
 
+  useEffect(() => {
+    (async () => {
+      const team = await getTeam(teamId);
+      const teamSurvey = await getTeamSurvey(team);
+      if (teamSurvey) {
+        setListOfQuestions(teamSurvey.questions);
+      }
+    })();
+  }, [teamId]);
+
   return (
     <Container>
       <PageHeader
@@ -59,10 +71,10 @@ export const CreateSurvey = () => {
       >
         {listOfQuestions.map((question, index) => {
           return (
-            <NewQuestion
+            <QuestionInput
               key={`question-${index}`}
               index={index}
-              inputValue={question}
+              inputValue={question.question}
               onChange={handleInputChange}
               onDelete={deleteQuestion}
             />

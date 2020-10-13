@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Button, Divider, Input } from "semantic-ui-react";
 
-export interface NewQuestionProps {
+export interface QuestionInputProps {
   index: number;
   inputValue: any;
   onChange: (inputValue: string, e: any) => void;
   onDelete: (index: number) => void;
 }
 
-export const NewQuestion = ({
+export const QuestionInput = ({
   index,
   inputValue,
   onChange,
   onDelete,
-}: NewQuestionProps) => {
+}: QuestionInputProps) => {
   const handleInputChange = (event: any, index: number) => {
     onChange(event.target.value, index);
   };

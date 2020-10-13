@@ -2,15 +2,17 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
-import { Question } from "./Question/Question";
-import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
+import { QuestionAndRating } from "./QuestionAndRating/QuestionAndRating";
+import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
 import { addAnswers } from "../../api/surveyResults/createSurveyResult.api";
+import { Load } from "../utils/Loading/Loading";
+import { getTeam } from "../../api/teams/readTeam.api";
 
 export interface Survey {
   team: string;
   code: string;
   survey: string;
-  questions: string[];
+  questions: Question[];
 }
 
 export interface Answer {
@@ -19,13 +21,14 @@ export interface Answer {
   score: number;
 }
 
-export const SurveyPage = () => {
+export const Survey = () => {
   const { teamId } = useParams();
 
   const [survey, setSurvey] = useState<Survey | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const history = useHistory();
+  const [counter, setCounter] = useState(0);
 
   const answerQuestion = (answer: Answer) => {
     if (answers.find((item) => item.question_id === answer.question_id)) {
@@ -57,14 +60,18 @@ export const SurveyPage = () => {
   };
 
   useEffect(() => {
-    getTeamSurvey(teamId).then((teamSurvey) => {
-      setSurvey(teamSurvey);
-      setIsLoading(false);
-    });
-  }, [setSurvey, teamId]);
+    (async () => {
+      const team = await getTeam(teamId);
+      const teamSurvey = await getTeamSurvey(team);
+      if (teamSurvey) {
+        setSurvey(teamSurvey);
+        setIsLoading(false);
+      }
+    })();
+  }, [teamId]);
 
   if (isLoading) {
-    return <>Just Loading..</>;
+    return <Load />;
   }
   if (!survey) {
     return <>Survey Not Found</>;
@@ -76,7 +83,7 @@ export const SurveyPage = () => {
       {survey?.questions?.map((question: any, index: any) => {
         return (
           <div key={index}>
-            <Question
+            <QuestionAndRating
               question={question.question}
               value={getValueForQuestion(question.id)}
               onChange={(score) =>
@@ -96,6 +103,7 @@ export const SurveyPage = () => {
       >
         Submit
       </Button>
+      <Button onClick={() => setCounter(counter + 1)}>count</Button>
     </Container>
   );
 };

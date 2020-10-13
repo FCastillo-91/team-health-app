@@ -4,27 +4,28 @@ import { Button, Dropdown, Header } from "semantic-ui-react";
 import { getAllTeams, Team } from "../../api/teams/readTeam.api";
 import { useHistory } from "react-router-dom";
 
-export const Home = () => {
+export const TakeTeamSurveyHomePage = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const history = useHistory();
 
   useEffect(() => {
-    getAllTeams().then((teams) => {
-      setTeams(teams);
-    });
-  }, [setTeams]);
+    (async () => {
+      const teamNames = await getAllTeams();
+      setTeams(teamNames);
+    })();
+  }, [getAllTeams]); // THIS ONE?
 
-  function handleSetTeam(teamCode: string) {
+  const handleSetTeam = (teamCode: string) => {
     setSelectedTeam(teamCode);
-  }
+  };
 
-  function handleSubmit() {
+  const handleSubmit = () => {
     if (!selectedTeam) {
       return;
     }
     history.push(`/teams/${selectedTeam}/survey`);
-  }
+  };
 
   return (
     <>

@@ -10,4 +10,3 @@ export const updateTeamSurvey = async (teamId: string) => {
     survey: surveyId,
   });
 };
-

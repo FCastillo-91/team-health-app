@@ -23,9 +23,11 @@ export const GenerateTableHeaders = ({
   return (
     <>
       <Table.Header>
-        {tableHeaders.map((item: any, index: number) => {
+        <Table.Row>
+        {tableHeaders.map((item, index: number) => {
           return <Table.HeaderCell key={index}>{item}</Table.HeaderCell>;
         })}
+        </Table.Row>
       </Table.Header>
     </>
   );
@@ -35,18 +37,18 @@ export const GenerateTableContent = ({
   tableData,
 }: GenerateTableContentProps) => {
   return (
-    <>
+    <tbody>
       {tableData?.map((item, index) => {
         return (
           <Table.Row key={index}>
             <Table.Cell>{item.code}</Table.Cell>
-            <Table.Cell as={Link} to={`/teams/${item.code}`}>
-              {item.name}
+            <Table.Cell>
+              <Link to={`/teams/${item.code}`}>{item.name}</Link>
             </Table.Cell>
           </Table.Row>
         );
       })}
-    </>
+    </tbody>
   );
 };
 
@@ -60,7 +62,6 @@ export const GenerateTable = ({
       <Table tableid={tableid}>
         <GenerateTableHeaders tableHeaders={tableHeaders} />
         <GenerateTableContent tableData={tableData} />
-        {/*<Table.Body>{GenerateTableContent(tableData)}</Table.Body>*/}
       </Table>
     </>
   );

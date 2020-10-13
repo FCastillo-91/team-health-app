@@ -2,7 +2,7 @@ import * as React from "react";
 import { Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-export const Header = () => {
+export const NavBar = () => {
   return (
     <div>
       <Menu pointing secondary size="huge" style={{marginBottom: "1em"}}>

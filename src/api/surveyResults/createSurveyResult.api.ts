@@ -1,7 +1,11 @@
 import { database } from "../config/database";
-import { Answer } from "../../components/Survey/SurveyPage";
-import { calculateAverageScore } from "../../components/Survey/ScoreHelpers/ScoreHelpers";
 import { date } from "../../components/utils/dateHelpers/dateHelpers";
+import { Answer } from "../../components/Survey/Survey";
+import {
+  calculateFirstAverageScore,
+  newSubmissionCount,
+  updateAverageScore,
+} from "../../components/Survey/scoreHelpers/calculateScoreHelpers";
 
 export const resultsCollectionRef = () => database.collection("results");
 const resultRef = (id: string) => resultsCollectionRef().doc(id);
@@ -17,7 +21,7 @@ export const createResultsRefId = (teamId: string) => {
 export const addAnswers = async (teamId: string, answers: Answer[]) => {
   const resultsId = createResultsRefId(teamId);
   const result = await resultRef(resultsId).get();
-  const score = calculateAverageScore(answers);
+  const score = calculateFirstAverageScore(answers);
 
   if (!result.exists) {
     await createResultsDoc(teamId, { score, submissionCount: 1 });
@@ -41,10 +45,10 @@ export const addAnswers = async (teamId: string, answers: Answer[]) => {
   await batch.commit();
 };
 
-export const createResultsDoc = (teamId: string, data: any = {}) => {
+export const createResultsDoc = async (teamId: string, data: any = {}) => {
   const resultsId = createResultsRefId(teamId);
 
-  return resultsCollectionRef()
+  return await resultsCollectionRef()
     .doc(resultsId)
     .set({
       date: new Date(),
@@ -52,5 +56,3 @@ export const createResultsDoc = (teamId: string, data: any = {}) => {
       ...data,
     });
 };
-
-

@@ -1,4 +1,5 @@
-import { collectionTeamsRef } from "../ref.api";
+import { database } from "../config/database";
+import { teamsCollectionRef } from "./addTeam.api";
 
 export interface Team {
   code: string;
@@ -6,8 +7,11 @@ export interface Team {
   id: string;
   survey: string;
 }
+export const collectionTeamsRef = () => database.collection("teams");
+export const teamRef = (id: string) => teamsCollectionRef().doc(id);
 
 export const getAllTeams = async () => {
+    console.log("getALlTeams");
   const snapshot = await collectionTeamsRef().get();
   return snapshot.docs.map((doc) => {
     const { name, code, id, survey } = doc.data();
@@ -16,6 +20,6 @@ export const getAllTeams = async () => {
 };
 
 export const getTeam = async (id: string): Promise<Team> => {
-  const doc = await collectionTeamsRef().doc(id).get();
+  const doc = await teamRef(id).get();
   return (doc.data() as Team) || null;
 };

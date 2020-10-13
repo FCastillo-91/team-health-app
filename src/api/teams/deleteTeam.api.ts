@@ -1,13 +1,9 @@
-import { collectionTeamsRef } from "../ref.api";
+import { database } from "../config/database";
+import { teamsCollectionRef } from "./addTeam.api";
 
-export const deleteTeam = (teamCode: any) => {
-  collectionTeamsRef()
-    .doc(teamCode)
-    .delete()
-    .then(function () {
-      console.log("Team successfully deleted!");
-    })
-    .catch(function (error) {
-      console.error("Error removing document: ", error);
-    });
+const collectionTeamsRef = () => database.collection("teams");
+const teamRef = (id: string) => teamsCollectionRef().doc(id);
+
+export const deleteTeam = async (teamCode: string) => {
+  await teamRef(teamCode).delete();
 };
