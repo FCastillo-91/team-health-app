@@ -7,14 +7,14 @@ import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { getAllResultsDataPerTeam } from "../../api/surveyResults/readSurveyResult.api";
 import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
 import { getTeam } from "../../api/teams/readTeam.api";
-import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
+import { getTeamSurvey, QuestionsData } from "../../api/surveys/readSurvey.api";
 
 export const TeamAdmin = () => {
   const { teamId } = useParams();
   const [surveyResults, setSurveyResults] = useState();
   const [isDefault, setIsDefault] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([]);
+  const [surveyQuestions, setSurveyQuestions] = useState<QuestionsData[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -55,7 +55,7 @@ export const TeamAdmin = () => {
             </p>
           )}
           <p>Need a reminder of your current survey questions?</p>
-          {surveyQuestions?.map((question: Question, index) => {
+          {surveyQuestions?.map((question: QuestionsData, index) => {
             return <li key={index}>{question.question}</li>;
           })}
         </Segment>

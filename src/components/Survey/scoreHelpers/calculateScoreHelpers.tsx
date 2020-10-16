@@ -17,8 +17,8 @@ export const newSubmissionCount = (submissionCount: number) => {
   return submissionCount + 1;
 };
 
-export const updateAverageScore = (score: number, submissionCount: number) => {
+export const updateAverageScore = (score: number, currentScore: number, submissionCount: number) => {
   const totalScore = score * submissionCount;
-  const newTotalScore = totalScore + score;
+  const newTotalScore = totalScore + currentScore;
   return newTotalScore / newSubmissionCount(submissionCount);
 };

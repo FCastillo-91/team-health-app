@@ -7,6 +7,13 @@ import {
   updateAverageScore,
 } from "../../components/Survey/scoreHelpers/calculateScoreHelpers";
 
+export interface ResultsData {
+  team: string;
+  submissionCount: number;
+  score: number;
+  date: Date;
+}
+
 export const resultsCollectionRef = () => database.collection("results");
 const resultRef = (id: string) => resultsCollectionRef().doc(id);
 const answersCollectionRef = (resultId: string) =>
@@ -19,25 +26,29 @@ export const createResultsRefId = (teamId: string) => {
 };
 
 export const addAnswers = async (teamId: string, answers: Answer[]) => {
-
   console.log("Adding Answers");
 
   const resultsId = createResultsRefId(teamId);
   const result = await resultRef(resultsId).get();
-  const score = calculateFirstAverageScore(answers);
+  const firstAvgScore = calculateFirstAverageScore(answers);
 
   if (!result.exists) {
-    await createResultsDoc(teamId, { score, submissionCount: 1 });
+    await createResultsDoc(teamId, {
+      score: firstAvgScore,
+      submissionCount: 1,
+    });
   } else {
-    const data = result.data() as any;
-    const totalScore = data.score * data.submissionCount;
-    const newTotalScore = totalScore + score;
-    const newSubmissionCount = data.submissionCount + 1;
-    const averageScore = newTotalScore / newSubmissionCount;
+    const { score, submissionCount } = result.data() as ResultsData;
+    const updatedAverageScore = updateAverageScore(
+      score,
+      submissionCount,
+      firstAvgScore
+    );
+    const updatedSubmissionCount = newSubmissionCount(submissionCount);
 
     await resultRef(resultsId).update({
-      score: averageScore,
-      submissionCount: newSubmissionCount,
+      score: updatedAverageScore,
+      submissionCount: updatedSubmissionCount,
     });
   }
   const batch = database.batch();
