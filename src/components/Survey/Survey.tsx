@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
 import { QuestionAndRating } from "./QuestionAndRating/QuestionAndRating";
-import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
+import { getTeamSurvey, QuestionsData } from "../../api/surveys/readSurvey.api";
 import { addAnswers } from "../../api/surveyResults/createSurveyResult.api";
 import { Load } from "../utils/Loading/Loading";
 import { getTeam } from "../../api/teams/readTeam.api";
@@ -12,7 +12,7 @@ export interface Survey {
   team: string;
   code: string;
   survey: string;
-  questions: Question[];
+  questions: QuestionsData[];
 }
 
 export interface Answer {
@@ -28,7 +28,6 @@ export const Survey = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const history = useHistory();
-  const [counter, setCounter] = useState(0);
 
   const answerQuestion = (answer: Answer) => {
     if (answers.find((item) => item.question_id === answer.question_id)) {
@@ -103,7 +102,6 @@ export const Survey = () => {
       >
         Submit
       </Button>
-      <Button onClick={() => setCounter(counter + 1)}>count</Button>
     </Container>
   );
 };

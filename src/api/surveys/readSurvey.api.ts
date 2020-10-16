@@ -1,10 +1,14 @@
 import {Team} from "../teams/readTeam.api";
 import {database} from "../config/database";
 
-export interface Question {
-  question: string;
+export interface QuestionsData {
+  question: Question;
   order?: number;
   id: string;
+}
+
+export interface Question {
+  question: string
 }
 
 export const collectionSurveysRef = () => database.collection("surveys");
@@ -34,7 +38,7 @@ export const getQuestions = async (surveyId: string) => {
 
 export const getTeamSurvey = async (team: Team) => {
   console.log("Get Team Survey");
-  const surveyQuestions = await getQuestions(team.survey) as Question[];
+  const surveyQuestions = await getQuestions(team.survey) as QuestionsData[];
   return {
     team: team.name,
     code: team.code,

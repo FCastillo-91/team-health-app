@@ -6,12 +6,12 @@ import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { QuestionInput } from "./QuestionInput/QuestionInput";
 import { addQuestionsToSurvey } from "../../api/surveys/createSurvey.api";
 import { updateTeamSurvey } from "../../api/teams/updateTeam.api";
-import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
+import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
 import { getTeam } from "../../api/teams/readTeam.api";
 
 export const PersonaliseSurvey = () => {
   const { teamId } = useParams();
-  const [listOfQuestions, setListOfQuestions] = useState();
+  const [listOfQuestions, setListOfQuestions] = useState<Question[]>([]);
   const history = useHistory();
 
   const handleSave = async () => {
@@ -29,16 +29,17 @@ export const PersonaliseSurvey = () => {
   const deleteQuestion = (index: number) => {
     const currentQuestions = listOfQuestions;
     const updatedQuestionView = currentQuestions?.filter(
-      (question: string, i: number) => {
+      (question, i: number) => {
         return index !== i;
       }
     );
     setListOfQuestions(updatedQuestionView);
   };
 
-  const handleInputChange = (questionText: any, index: number) => {
+  const handleInputChange = (questionText: string, index: number) => {
     const updateInputText = [] as any;
-    listOfQuestions.forEach((question: string, i: number) => {
+
+    listOfQuestions.forEach((question, i: number) => {
       if (index === i) {
         updateInputText.push(questionText);
       } else {
@@ -72,7 +73,7 @@ export const PersonaliseSurvey = () => {
           event.preventDefault();
         }}
       >
-        {listOfQuestions?.map((question: string, i: number) => {
+        {listOfQuestions?.map((question, i: number) => {
           return (
             <QuestionInput
               key={`question-${i}`}
