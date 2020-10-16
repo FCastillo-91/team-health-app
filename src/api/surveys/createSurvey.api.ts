@@ -1,9 +1,9 @@
 import { database } from "../config/database";
-import {Question, QuestionsData} from "./readSurvey.api";
+import { Question } from "./readSurvey.api";
 
 const surveysCollectionRef = () => database.collection("surveys");
 const surveyRef = (id: any) => surveysCollectionRef().doc(id);
-const surveyQuestionsCollectionRef = (surveyId: any) =>
+const surveyQuestionsCollectionRef = (surveyId: string) =>
   surveyRef(surveyId).collection("questions");
 
 export const createSurveysRefId = (teamId: string) => {
@@ -30,5 +30,4 @@ export const addQuestionsToSurvey = async (
     batch.set(ref, { question: question, order: index + 1 });
   });
   await batch.commit();
-
 };

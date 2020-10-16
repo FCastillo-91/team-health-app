@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
 import { QuestionAndRating } from "./QuestionAndRating/QuestionAndRating";
-import { getTeamSurvey, QuestionsData } from "../../api/surveys/readSurvey.api";
+import {
+  getTeamSurvey,
+  Question,
+  QuestionsData,
+} from "../../api/surveys/readSurvey.api";
 import { addAnswers } from "../../api/surveyResults/createSurveyResult.api";
 import { Load } from "../utils/Loading/Loading";
 import { getTeam } from "../../api/teams/readTeam.api";
@@ -17,7 +21,7 @@ export interface Survey {
 
 export interface Answer {
   question_id: string;
-  question: string;
+  question: Question;
   score: number;
 }
 
@@ -79,7 +83,7 @@ export const Survey = () => {
   return (
     <Container>
       <h1>{`${survey?.team} Team Health Survey`}</h1>
-      {survey?.questions?.map((question: any, index: any) => {
+      {survey?.questions?.map((question, index) => {
         return (
           <div key={index}>
             <QuestionAndRating

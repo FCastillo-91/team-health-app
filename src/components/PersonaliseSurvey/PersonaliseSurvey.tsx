@@ -38,7 +38,6 @@ export const PersonaliseSurvey = () => {
 
   const handleInputChange = (questionText: string, index: number) => {
     const updateInputText = [] as any;
-
     listOfQuestions.forEach((question, i: number) => {
       if (index === i) {
         updateInputText.push(questionText);
