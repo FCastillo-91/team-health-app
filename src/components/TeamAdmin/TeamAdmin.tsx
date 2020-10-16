@@ -4,14 +4,19 @@ import { useParams } from "react-router-dom";
 import { CreateButton } from "../utils/CreateButton/CreateButton";
 import { Container, Divider, Header, Segment, Table } from "semantic-ui-react";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
-import { getAllResultsDataPerTeam } from "../../api/surveyResults/readSurveyResult.api";
+import {
+  getAllResultsDataPerTeam,
+  MonthlyTeamSurveyResults,
+} from "../../api/surveyResults/readSurveyResult.api";
 import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
 import { getTeam } from "../../api/teams/readTeam.api";
 import { getTeamSurvey, QuestionsData } from "../../api/surveys/readSurvey.api";
 
 export const TeamAdmin = () => {
   const { teamId } = useParams();
-  const [surveyResults, setSurveyResults] = useState();
+  const [surveyResults, setSurveyResults] = useState<
+    MonthlyTeamSurveyResults[]
+  >([]);
   const [isDefault, setIsDefault] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [surveyQuestions, setSurveyQuestions] = useState<QuestionsData[]>([]);
@@ -20,7 +25,7 @@ export const TeamAdmin = () => {
     (async () => {
       const team = await getTeam(teamId);
 
-      if(!team) return; //display error not team exist
+      if (!team) return; //display error not team exist
 
       const teamSurvey = await getTeamSurvey(team);
       const teamResults = await getAllResultsDataPerTeam(teamId);
@@ -55,7 +60,7 @@ export const TeamAdmin = () => {
             </p>
           )}
           <p>Need a reminder of your current survey questions?</p>
-          {surveyQuestions?.map((question: QuestionsData, index) => {
+          {surveyQuestions?.map((question, index) => {
             return <li key={index}>{question.question}</li>;
           })}
         </Segment>
@@ -69,7 +74,7 @@ export const TeamAdmin = () => {
             tableHeaders={["Survey", "Team Health Score", "No. of Respondents"]}
           />
           <Table.Body>
-            {surveyResults?.map((result: any, index: number) => {
+            {surveyResults?.map((result, index: number) => {
               return (
                 <Table.Row key={index}>
                   <Table.Cell>{result.id}</Table.Cell>
