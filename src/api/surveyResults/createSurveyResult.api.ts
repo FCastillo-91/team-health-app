@@ -19,6 +19,9 @@ export const createResultsRefId = (teamId: string) => {
 };
 
 export const addAnswers = async (teamId: string, answers: Answer[]) => {
+
+  console.log("Adding Answers");
+
   const resultsId = createResultsRefId(teamId);
   const result = await resultRef(resultsId).get();
   const score = calculateFirstAverageScore(answers);

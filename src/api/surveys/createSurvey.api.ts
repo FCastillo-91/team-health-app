@@ -18,15 +18,16 @@ export const createSurveyDoc = async (customSurveyId: string) => {
 
 export const addQuestionsToSurvey = async (
   teamId: string,
-  questions: Question[]
+  questions: string[]
 ) => {
+  console.log("Adding Questions");
   const customSurveyId = createSurveysRefId(teamId);
   await createSurveyDoc(customSurveyId);
 
   const batch = database.batch();
-  await questions.forEach((question: Question, index: number) => {
+  await questions.forEach((question: string, index: number) => {
     const ref = surveyQuestionsCollectionRef(customSurveyId).doc();
-    batch.set(ref, { question: question.question, order: index + 1 });
+    batch.set(ref, { question: question, order: index + 1 });
   });
   await batch.commit();
 

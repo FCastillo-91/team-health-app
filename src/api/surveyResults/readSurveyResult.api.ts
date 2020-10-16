@@ -1,6 +1,7 @@
 import {resultsCollectionRef} from "./createSurveyResult.api";
 
 export const getAllResultsDataPerTeam = async (teamId: string) => {
+  console.log("Get Team Results");
   const monthlyTeamResults = await resultsCollectionRef()
     .where("team", "==", `${teamId}`)
     .get();

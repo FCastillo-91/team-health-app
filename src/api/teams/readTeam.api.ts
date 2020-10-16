@@ -20,6 +20,7 @@ export const getAllTeams = async () => {
 };
 
 export const getTeam = async (id: string): Promise<Team> => {
+  console.log("Get Team");
   const doc = await teamRef(id).get();
   return (doc.data() as Team) || null;
 };

@@ -3,7 +3,7 @@ import {database} from "../config/database";
 
 export interface Question {
   question: string;
-  order?: string;
+  order?: number;
   id: string;
 }
 
@@ -12,6 +12,7 @@ export const collectionQuestionsRef = (id: any) =>
   collectionSurveysRef().doc(id).collection("questions");
 
 export const getSurveyType = async () => {
+  console.log("Get Survey Type");
   const surveyRefs = collectionSurveysRef();
   const getAllSurveys = await surveyRefs.get();
   return getAllSurveys.docs.map((surveys) => {
@@ -20,6 +21,7 @@ export const getSurveyType = async () => {
 };
 
 export const getQuestions = async (surveyId: string) => {
+  console.log("Get Questions");
   const questionRefs = collectionQuestionsRef(surveyId);
   const getAllQuestions = await questionRefs.orderBy("order").get();
   return getAllQuestions.docs.map((questions) => {
@@ -31,6 +33,7 @@ export const getQuestions = async (surveyId: string) => {
 };
 
 export const getTeamSurvey = async (team: Team) => {
+  console.log("Get Team Survey");
   const surveyQuestions = await getQuestions(team.survey) as Question[];
   return {
     team: team.name,
