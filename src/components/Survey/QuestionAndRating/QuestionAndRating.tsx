@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Container, Rating, Segment } from "semantic-ui-react";
-import { Question } from "../../../api/surveys/readSurvey.api";
+import {Container, Rating, Segment} from "semantic-ui-react";
 
 export interface QuestionAndRatingProps {
-  question: Question;
+  question: string;
   onChange?: (rating: number) => void;
   value: number;
 }

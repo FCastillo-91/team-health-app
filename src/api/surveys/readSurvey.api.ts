@@ -1,44 +1,41 @@
-import {Team} from "../teams/readTeam.api";
-import {database} from "../config/database";
-
-export interface QuestionsData {
-  question: Question;
-  order?: number;
-  id: string;
-}
+import { Team } from "../teams/readTeam.api";
+import { database } from "../config/database";
 
 export interface Question {
-  question: string
+  question: string;
+  id?: string;
+  order?: number;
+}
+export type Questions = Question[];
+
+export interface TeamSurveyData {
+  team: string;
+  code: string;
+  survey: string;
+  questions: Questions;
 }
 
 export const collectionSurveysRef = () => database.collection("surveys");
 export const collectionQuestionsRef = (id: any) =>
   collectionSurveysRef().doc(id).collection("questions");
 
-export const getSurveyType = async () => {
-  console.log("Get Survey Type");
-  const surveyRefs = collectionSurveysRef();
-  const getAllSurveys = await surveyRefs.get();
-  return getAllSurveys.docs.map((surveys) => {
-    return surveys.data();
-  });
-};
-
-export const getQuestions = async (surveyId: string) => {
+export const getQuestions = async (surveyId: string): Promise<Questions> => {
   console.log("Get Questions");
   const questionRefs = collectionQuestionsRef(surveyId);
   const getAllQuestions = await questionRefs.orderBy("order").get();
-  return getAllQuestions.docs.map((questions) => {
+  return getAllQuestions.docs.map((doc) => {
+    const { question, order } = doc.data();
     return {
-      id: questions.id,
-      ...questions.data(),
+      id: doc.id,
+      question,
+      order,
     };
   });
 };
 
-export const getTeamSurvey = async (team: Team) => {
+export const getTeamSurvey = async (team: Team): Promise<TeamSurveyData> => {
   console.log("Get Team Survey");
-  const surveyQuestions = await getQuestions(team.survey) as QuestionsData[];
+  const surveyQuestions = await getQuestions(team.survey);
   return {
     team: team.name,
     code: team.code,

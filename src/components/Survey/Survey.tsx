@@ -5,35 +5,28 @@ import { Button, Container } from "semantic-ui-react";
 import { QuestionAndRating } from "./QuestionAndRating/QuestionAndRating";
 import {
   getTeamSurvey,
-  Question,
-  QuestionsData,
+  TeamSurveyData,
 } from "../../api/surveys/readSurvey.api";
 import { addAnswers } from "../../api/surveyResults/createSurveyResult.api";
 import { Load } from "../utils/Loading/Loading";
 import { getTeam } from "../../api/teams/readTeam.api";
 
-export interface Survey {
-  team: string;
-  code: string;
-  survey: string;
-  questions: QuestionsData[];
-}
-
 export interface Answer {
   question_id: string;
-  question: Question;
+  question: string;
   score: number;
 }
 
 export const Survey = () => {
   const { teamId } = useParams();
 
-  const [survey, setSurvey] = useState<Survey | undefined>();
+  const [survey, setSurvey] = useState<TeamSurveyData>();
   const [isLoading, setIsLoading] = useState(true);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const history = useHistory();
 
-  const answerQuestion = (answer: Answer) => {
+  // TODO: remove any
+  const answerQuestion = (answer: any) => {
     if (answers.find((item) => item.question_id === answer.question_id)) {
       setAnswers(
         answers.map((item) => {
@@ -49,7 +42,7 @@ export const Survey = () => {
     }
   };
 
-  const getValueForQuestion = (questionId: string) => {
+  const getValueForQuestion = (questionId: string = '') => {
     const answer = answers.find((item) => item.question_id === questionId);
     if (answer) {
       return answer.score;
@@ -66,6 +59,7 @@ export const Survey = () => {
     (async () => {
       const team = await getTeam(teamId);
       const teamSurvey = await getTeamSurvey(team);
+
       if (teamSurvey) {
         setSurvey(teamSurvey);
         setIsLoading(false);
@@ -101,7 +95,7 @@ export const Survey = () => {
         );
       })}
       <Button
-        disabled={answers.length !== survey.questions.length}
+        disabled={answers.length !== survey?.questions.length}
         onClick={() => submitAnswers()}
       >
         Submit

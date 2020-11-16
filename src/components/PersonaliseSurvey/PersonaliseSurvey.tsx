@@ -6,12 +6,12 @@ import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { QuestionInput } from "./QuestionInput/QuestionInput";
 import { addQuestionsToSurvey } from "../../api/surveys/createSurvey.api";
 import { updateTeamSurvey } from "../../api/teams/updateTeam.api";
-import { getTeamSurvey, Question } from "../../api/surveys/readSurvey.api";
+import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
 import { getTeam } from "../../api/teams/readTeam.api";
 
 export const PersonaliseSurvey = () => {
   const { teamId } = useParams();
-  const [listOfQuestions, setListOfQuestions] = useState<Question[]>([]);
+  const [listOfQuestions, setListOfQuestions] = useState<string[]>([]);
   const history = useHistory();
 
   const handleSave = async () => {

@@ -24,16 +24,22 @@ export const QuestionInput = ({
 
   return (
     <>
-      <Input
-        fluid
-        name="questionTextInput"
-        label={`Question ${index + 1}`}
-        labelPosition="left"
-        placeholder="Type question..."
-        value={inputValue}
-        onChange={(e) => handleInputChange(e, index)}
-      />
-      <Button onClick={(e) => handleDelete(index)} icon="delete" />
+      <div style={{ display: "flex" }}>
+        <div style={{ flexGrow: 4 }}>
+          <Input
+            fluid
+            name="questionTextInput"
+            label={`Question ${index + 1}`}
+            labelPosition="left"
+            placeholder="Type question..."
+            value={inputValue}
+            onChange={(e) => handleInputChange(e, index)}
+          />
+        </div>
+        <div style={{ flexGrow: 0 }}>
+          <Button onClick={(e) => handleDelete(index)} icon="delete" />
+        </div>
+      </div>
       <Divider />
     </>
   );

@@ -10,7 +10,7 @@ import {
 } from "../../api/surveyResults/readSurveyResult.api";
 import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
 import { getTeam } from "../../api/teams/readTeam.api";
-import { getTeamSurvey, QuestionsData } from "../../api/surveys/readSurvey.api";
+import { getTeamSurvey, Questions } from "../../api/surveys/readSurvey.api";
 
 export const TeamAdmin = () => {
   const { teamId } = useParams();
@@ -19,7 +19,7 @@ export const TeamAdmin = () => {
   >([]);
   const [isDefault, setIsDefault] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [surveyQuestions, setSurveyQuestions] = useState<QuestionsData[]>([]);
+  const [surveyQuestions, setSurveyQuestions] = useState<Questions>([]);
 
   useEffect(() => {
     (async () => {
@@ -35,7 +35,7 @@ export const TeamAdmin = () => {
       }
 
       if (teamSurvey) {
-        setSurveyQuestions(teamSurvey?.questions);
+        setSurveyQuestions(teamSurvey.questions);
       }
 
       if (teamResults) {
@@ -61,6 +61,7 @@ export const TeamAdmin = () => {
           )}
           <p>Need a reminder of your current survey questions?</p>
           {surveyQuestions?.map((question, index) => {
+            // console.log({question})
             return <li key={index}>{question.question}</li>;
           })}
         </Segment>
