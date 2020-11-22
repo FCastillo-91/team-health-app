@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Button, Container, Form } from "semantic-ui-react";

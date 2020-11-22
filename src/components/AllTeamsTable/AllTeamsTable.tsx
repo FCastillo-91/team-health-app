@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { Button, Container } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getAllTeams, Team } from "../../api/teams/readTeam.api";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { GenerateTable } from "../utils/CreateTable/DataTable";
@@ -12,6 +12,7 @@ export const AllTeamsTable = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -25,6 +26,9 @@ export const AllTeamsTable = () => {
     })();
   }, [getAllTeams]);
 
+  const handleAddTeam = () => {
+    history.push(`/teams/create`);
+  };
   if (isLoading) {
     return <Load />;
   }
@@ -41,9 +45,7 @@ export const AllTeamsTable = () => {
         tableData={teams}
         tableid={"teams-table"}
       />
-      <Button as={Link} to="teams/create">
-        Add Team
-      </Button>
+      <Button onClick={handleAddTeam}>Add Team</Button>
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Header } from "semantic-ui-react";
 import { getAllTeams, Team } from "../../api/teams/readTeam.api";

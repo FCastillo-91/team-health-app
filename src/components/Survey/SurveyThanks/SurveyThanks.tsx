@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Container, Header, Segment } from "semantic-ui-react";
 
 export const SurveyThanks = () => {

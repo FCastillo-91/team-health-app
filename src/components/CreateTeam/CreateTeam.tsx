@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { useState } from "react";
 import { Button, Container, Form, Input } from "semantic-ui-react";
 import { addTeam } from "../../api/teams/addTeam.api";

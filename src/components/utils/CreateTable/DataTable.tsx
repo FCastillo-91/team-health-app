@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Table } from "semantic-ui-react";
 import { Team } from "../../../api/teams/readTeam.api";
 import { Link } from "react-router-dom";

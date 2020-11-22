@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Button, Divider, Input } from "semantic-ui-react";
 import { FormEvent } from "react";
 

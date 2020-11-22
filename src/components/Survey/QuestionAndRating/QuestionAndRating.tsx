@@ -1,16 +1,16 @@
-import * as React from "react";
-import {Container, Rating, Segment} from "semantic-ui-react";
+import React from "react";
+import { Container, Rating, Segment } from "semantic-ui-react";
 
 export interface QuestionAndRatingProps {
   question: string;
   onChange?: (rating: number) => void;
   value: number;
 }
-export const QuestionAndRating: React.FC<QuestionAndRatingProps> = ({
+export const QuestionAndRating = ({
   question,
   onChange = () => {},
   value,
-}) => {
+}: QuestionAndRatingProps) => {
   function handleChangeOnRate(event: any, { rating }: any) {
     onChange(rating);
   }
