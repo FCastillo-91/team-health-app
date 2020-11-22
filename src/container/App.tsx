@@ -16,7 +16,7 @@ function App() {
       <Router basename={process.env.PUBLIC_URL}>
         <NavBar />
         <Switch>
-          <Route exact path="/team-health-app" component={TakeTeamSurveyHomePage} />
+          <Route exact path="/" component={TakeTeamSurveyHomePage} />
           <Route exact path="/teams" component={AllTeamsTable} />
           <Route exact path="/teams/create" component={CreateTeam} />
           <Route exact path="/teams/:teamId" component={TeamAdmin} />
