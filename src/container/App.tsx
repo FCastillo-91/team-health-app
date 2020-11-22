@@ -13,7 +13,7 @@ import { CreateTeam } from "../components/CreateTeam/CreateTeam";
 function App() {
   return (
     <div className="App">
-      <Router basename={"/team-health-app"}>
+      <Router basename={process.env.PUBLIC_URL}>
         <NavBar />
         <Switch>
           <Route exact path="/team-health-app" component={TakeTeamSurveyHomePage} />
