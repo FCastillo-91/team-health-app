@@ -13,10 +13,10 @@ import { CreateTeam } from "../components/CreateTeam/CreateTeam";
 function App() {
   return (
     <div className="App">
-      <Router basename={"/"}>
+      <Router basename={"/team-health-app"}>
         <NavBar />
         <Switch>
-          <Route exact path="/" component={TakeTeamSurveyHomePage} />
+          <Route exact path="/team-health-app" component={TakeTeamSurveyHomePage} />
           <Route exact path="/teams" component={AllTeamsTable} />
           <Route exact path="/teams/create" component={CreateTeam} />
           <Route exact path="/teams/:teamId" component={TeamAdmin} />
