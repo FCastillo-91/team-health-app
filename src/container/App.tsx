@@ -13,7 +13,7 @@ import { CreateTeam } from "../components/CreateTeam/CreateTeam";
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename={"/"}>
         <NavBar />
         <Switch>
           <Route exact path="/" component={TakeTeamSurveyHomePage} />
