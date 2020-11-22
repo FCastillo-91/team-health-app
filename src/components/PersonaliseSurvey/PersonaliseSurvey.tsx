@@ -12,7 +12,11 @@ import { getTeam } from "../../api/teams/readTeam.api";
 export const PersonaliseSurvey = () => {
   const { teamId } = useParams();
   const [listOfQuestions, setListOfQuestions] = useState<string[]>([]);
+  const [isValidChange, setIsValidChange] = useState<boolean>(false);
   const history = useHistory();
+  const [originalListOfQuestions, setOriginalListOfQuestions] = useState<
+    string[]
+  >([]);
 
   const handleSave = async () => {
     await addQuestionsToSurvey(teamId, listOfQuestions);
@@ -24,6 +28,7 @@ export const PersonaliseSurvey = () => {
     const currentQuestions = listOfQuestions;
     const addToCurrentQuestions = [...currentQuestions, e.target.value];
     setListOfQuestions(addToCurrentQuestions);
+    handleIsValid(addToCurrentQuestions);
   };
 
   const deleteQuestion = (index: number) => {
@@ -34,18 +39,39 @@ export const PersonaliseSurvey = () => {
       }
     );
     setListOfQuestions(updatedQuestionView);
+    handleIsValid(updatedQuestionView);
   };
 
   const handleInputChange = (questionText: string, index: number) => {
-    const updateInputText = [] as any;
+    const newListOfQuestions = [] as any;
     listOfQuestions.forEach((question, i: number) => {
       if (index === i) {
-        updateInputText.push(questionText);
+        newListOfQuestions.push(questionText);
       } else {
-        updateInputText.push(question);
+        newListOfQuestions.push(question);
       }
     });
-    setListOfQuestions(updateInputText);
+    setListOfQuestions(newListOfQuestions);
+    handleIsValid(newListOfQuestions);
+  };
+
+  const isEqualArrays = (a: string[], b: string[]) => {
+    return a.length === b.length && a.every((v, i) => v === b[i]);
+  };
+
+  const handleIsValid = (newQuestions: string[]) => {
+    let isInvalid = false;
+    newQuestions.forEach((question) => {
+      if (question === "") {
+        isInvalid = true;
+      }
+    });
+    if (isInvalid) {
+      return setIsValidChange(false);
+    }
+    return isEqualArrays(originalListOfQuestions, newQuestions)
+      ? setIsValidChange(false)
+      : setIsValidChange(true);
   };
 
   useEffect(() => {
@@ -57,6 +83,7 @@ export const PersonaliseSurvey = () => {
           (question) => question.question
         );
         setListOfQuestions(questions);
+        setOriginalListOfQuestions(questions);
       }
     })();
   }, [teamId]);
@@ -85,7 +112,9 @@ export const PersonaliseSurvey = () => {
         })}
         <Button onClick={addNewQuestion}>Add Question</Button>
 
-        <Button onClick={handleSave}>Save</Button>
+        <Button disabled={!isValidChange} onClick={handleSave}>
+          Save
+        </Button>
       </Form>
     </Container>
   );

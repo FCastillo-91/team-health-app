@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Button, Divider, Input } from "semantic-ui-react";
+import { FormEvent } from "react";
 
 export interface QuestionInputProps {
   index: number;
-  inputValue: any;
-  onChange: (inputValue: string, e: any) => void;
+  inputValue: string;
+  onChange: (inputValue: string, index: number) => void;
   onDelete: (index: number) => void;
+  name?: string;
 }
 
 export const QuestionInput = ({
@@ -13,9 +15,14 @@ export const QuestionInput = ({
   inputValue,
   onChange,
   onDelete,
+  name,
 }: QuestionInputProps) => {
-  const handleInputChange = (event: any, index: number) => {
-    onChange(event.target.value, index);
+
+  const handleInputChange = (
+    event: FormEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    onChange(event.currentTarget.value, index);
   };
 
   const handleDelete = (index: number) => {
@@ -28,7 +35,7 @@ export const QuestionInput = ({
         <div style={{ flexGrow: 4 }}>
           <Input
             fluid
-            name="questionTextInput"
+            name={name}
             label={`Question ${index + 1}`}
             labelPosition="left"
             placeholder="Type question..."
