@@ -42,7 +42,7 @@ export const Survey = () => {
     }
   };
 
-  const getValueForQuestion = (questionId: string = '') => {
+  const getValueForQuestion = (questionId: string = "") => {
     const answer = answers.find((item) => item.question_id === questionId);
     if (answer) {
       return answer.score;
@@ -77,23 +77,27 @@ export const Survey = () => {
   return (
     <Container>
       <h1>{`${survey?.team} Team Health Survey`}</h1>
-      {survey?.questions?.map((question, index) => {
-        return (
-          <div key={index}>
-            <QuestionAndRating
-              question={question.question}
-              value={getValueForQuestion(question.id)}
-              onChange={(score) =>
-                answerQuestion({
-                  question_id: question.id,
-                  question: question.question,
-                  score,
-                })
-              }
-            />
-          </div>
-        );
-      })}
+      {survey?.questions.length === 0 ? (
+        <p>'No questions available'</p>
+      ) : (
+        survey?.questions?.map((question, index) => {
+          return (
+            <div key={index}>
+              <QuestionAndRating
+                question={question.question}
+                value={getValueForQuestion(question.id)}
+                onChange={(score) =>
+                  answerQuestion({
+                    question_id: question.id,
+                    question: question.question,
+                    score,
+                  })
+                }
+              />
+            </div>
+          );
+        })
+      )}
       <Button
         disabled={answers.length !== survey?.questions.length}
         onClick={() => submitAnswers()}

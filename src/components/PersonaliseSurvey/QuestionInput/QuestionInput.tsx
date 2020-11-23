@@ -8,6 +8,7 @@ export interface QuestionInputProps {
   onChange: (inputValue: string, index: number) => void;
   onDelete: (index: number) => void;
   name?: string;
+  disableButton?: boolean;
 }
 
 export const QuestionInput = ({
@@ -16,8 +17,8 @@ export const QuestionInput = ({
   onChange,
   onDelete,
   name,
+  disableButton,
 }: QuestionInputProps) => {
-
   const handleInputChange = (
     event: FormEvent<HTMLInputElement>,
     index: number
@@ -44,7 +45,11 @@ export const QuestionInput = ({
           />
         </div>
         <div style={{ flexGrow: 0 }}>
-          <Button onClick={(e) => handleDelete(index)} icon="delete" />
+          <Button
+            onClick={(e) => handleDelete(index)}
+            icon="delete"
+            disabled={disableButton}
+          />
         </div>
       </div>
       <Divider />

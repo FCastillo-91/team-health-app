@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Button, Container, Form } from "semantic-ui-react";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
@@ -13,6 +12,7 @@ export const PersonaliseSurvey = () => {
   const { teamId } = useParams();
   const [listOfQuestions, setListOfQuestions] = useState<string[]>([]);
   const [isValidChange, setIsValidChange] = useState<boolean>(false);
+  const [disableButton, setDisableButton] = useState<boolean>(false);
   const history = useHistory();
   const [originalListOfQuestions, setOriginalListOfQuestions] = useState<
     string[]
@@ -27,17 +27,25 @@ export const PersonaliseSurvey = () => {
   const addNewQuestion = (e: any) => {
     const currentQuestions = listOfQuestions;
     const addToCurrentQuestions = [...currentQuestions, e.target.value];
+    setDisableButton(false)
     setListOfQuestions(addToCurrentQuestions);
     handleIsValid(addToCurrentQuestions);
   };
 
   const deleteQuestion = (index: number) => {
     const currentQuestions = listOfQuestions;
+    if (currentQuestions.length <= 1) {
+      setDisableButton(true);
+      return false;
+    }
     const updatedQuestionView = currentQuestions?.filter(
       (question, i: number) => {
         return index !== i;
       }
     );
+    if (updatedQuestionView.length <= 1) {
+      setDisableButton(true);
+    }
     setListOfQuestions(updatedQuestionView);
     handleIsValid(updatedQuestionView);
   };
@@ -107,6 +115,7 @@ export const PersonaliseSurvey = () => {
               inputValue={question}
               onChange={handleInputChange}
               onDelete={deleteQuestion}
+              disableButton={disableButton}
             />
           );
         })}

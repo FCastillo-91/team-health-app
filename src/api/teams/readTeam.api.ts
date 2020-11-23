@@ -11,12 +11,23 @@ export const collectionTeamsRef = () => database.collection("teams");
 export const teamRef = (id: string) => teamsCollectionRef().doc(id);
 
 export const getAllTeams = async () => {
-    console.log("getALlTeams");
+  console.log("getALlTeams");
   const snapshot = await collectionTeamsRef().get();
   return snapshot.docs.map((doc) => {
     const { name, code, id, survey } = doc.data();
-    return { name, code, id, survey }; //TODO refactor
+    return { name, code, id, survey }; // TODO refactor
   });
+};
+
+export const checkTeamCode = async (teamCode) => {
+  const response = await getAllTeams();
+  let found = false;
+  response.map(team => {
+    if(teamCode === team.code){
+      found = true;
+    }
+  });
+  return found;
 };
 
 export const getTeam = async (id: string): Promise<Team> => {
