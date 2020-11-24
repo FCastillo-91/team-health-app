@@ -11,6 +11,7 @@ import {
 import { GenerateTableHeaders } from "../utils/CreateTable/DataTable";
 import { getTeam } from "../../api/teams/readTeam.api";
 import { getTeamSurvey, Questions } from "../../api/surveys/readSurvey.api";
+import { Load } from "../utils/Loading/Loading";
 
 export const TeamAdmin = () => {
   const { teamId } = useParams();
@@ -45,6 +46,10 @@ export const TeamAdmin = () => {
     })();
   }, [teamId]);
 
+  if (isLoading) {
+    return <Load />;
+  }
+
   return (
     <>
       <Container>
@@ -70,23 +75,33 @@ export const TeamAdmin = () => {
         <Header as="h3" textAlign="left">
           Survey Scores
         </Header>
-
-        <Table celled stackable={true}>
-          <GenerateTableHeaders
-            tableHeaders={["Survey", "Team Health Score", "No. of Respondents"]}
-          />
-          <Table.Body>
-            {surveyResults?.map((result, index: number) => {
-              return (
-                <Table.Row key={index}>
-                  <Table.Cell>{result.id}</Table.Cell>
-                  <Table.Cell>{result.score.toFixed(2)}</Table.Cell>
-                  <Table.Cell>{result.submissionCount}</Table.Cell>
-                </Table.Row>
-              );
-            })}
-          </Table.Body>
-        </Table>
+        {console.log(surveyResults)}
+        {surveyResults.length > 0 ? (
+          <Table celled stackable={true}>
+            <GenerateTableHeaders
+              tableHeaders={[
+                "Survey",
+                "Team Health Score",
+                "No. of Respondents",
+              ]}
+            />
+            <Table.Body>
+              {surveyResults?.map((result, index: number) => {
+                return (
+                  <Table.Row key={index}>
+                    <Table.Cell>{result.id}</Table.Cell>
+                    <Table.Cell>{result.score.toFixed(2)}</Table.Cell>
+                    <Table.Cell>{result.submissionCount}</Table.Cell>
+                  </Table.Row>
+                );
+              })}
+            </Table.Body>
+          </Table>
+        ) : (
+          <p style={{ textAlign: "left" }}>
+            There are no scores submitted for this team yet
+          </p>
+        )}
 
         <CreateButton
           buttonLabel="Personalise Survey"

@@ -8,7 +8,7 @@ export const NavBar = () => {
       <Menu pointing secondary size="huge" style={{marginBottom: "1em"}}>
         <Menu.Item as={Link} to="/" name="home" />
         <Menu.Menu position="right">
-          <Menu.Item as={Link} to="/teams" name="teams" />
+          <Menu.Item as={Link} to="/teams" name="admin" />
         </Menu.Menu>
       </Menu>
     </div>
