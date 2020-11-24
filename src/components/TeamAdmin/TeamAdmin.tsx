@@ -65,7 +65,7 @@ export const TeamAdmin = () => {
             </p>
           )}
           {surveyQuestions.length !== 0 && (
-            <p>Need a reminder of your current survey questions?</p>
+            <p>Here's a reminder of your current questions..</p>
           )}
           {surveyQuestions?.map((question, index) => {
             return <li key={index}>{question.question}</li>;
