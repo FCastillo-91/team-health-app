@@ -58,6 +58,10 @@ export const CreateTeam = () => {
     history.push(`/teams/${teamCodeInput}`);
   };
 
+  const handleBack = () => {
+    history.push(`/teams`);
+  };
+
   return (
     <Container>
       <PageHeader iconLabel="user plus" content="Create Your Team" />
@@ -85,6 +89,7 @@ export const CreateTeam = () => {
         />
         {errorMessage.isError && <p>{errorMessage.message}</p>}
         <p>You will be assigned a default survey when you create your team.</p>
+        <Button onClick={handleBack}>Back</Button>
         <Button
           disabled={!teamCodeInput || !teamNameInput || disableButton}
           onClick={() => {

@@ -22,8 +22,8 @@ export const getAllTeams = async () => {
 export const checkTeamCode = async (teamCode) => {
   const response = await getAllTeams();
   let found = false;
-  response.map(team => {
-    if(teamCode === team.code){
+  response.map((team) => {
+    if (teamCode === team.code) {
       found = true;
     }
   });
@@ -33,5 +33,5 @@ export const checkTeamCode = async (teamCode) => {
 export const getTeam = async (id: string): Promise<Team> => {
   console.log("Get Team");
   const doc = await teamRef(id).get();
-  return (doc.data() as Team) || null;
+  return doc.data() as Team;
 };

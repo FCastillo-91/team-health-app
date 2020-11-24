@@ -3,12 +3,12 @@ import { Container, Rating, Segment } from "semantic-ui-react";
 
 export interface QuestionAndRatingProps {
   question: string;
-  onChange?: (rating: number) => void;
+  onChange: (rating: number) => void;
   value: number;
 }
 export const QuestionAndRating = ({
   question,
-  onChange = () => {},
+  onChange,
   value,
 }: QuestionAndRatingProps) => {
   function handleChangeOnRate(event: any, { rating }: any) {

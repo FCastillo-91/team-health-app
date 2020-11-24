@@ -14,7 +14,7 @@ export const TakeTeamSurveyHomePage = () => {
       const teamNames = await getAllTeams();
       setTeams(teamNames);
     })();
-  }, [getAllTeams]); // THIS ONE?
+  }, [getAllTeams]);
 
   const handleSetTeam = (teamCode: string) => {
     setSelectedTeam(teamCode);

@@ -18,6 +18,20 @@ export const PersonaliseSurvey = () => {
     string[]
   >([]);
 
+  useEffect(() => {
+    (async () => {
+      const team = await getTeam(teamId);
+      const teamSurvey = await getTeamSurvey(team);
+      if (teamSurvey) {
+        const questions = teamSurvey?.questions?.map(
+          (question) => question.question
+        );
+        setListOfQuestions(questions);
+        setOriginalListOfQuestions(questions);
+      }
+    })();
+  }, [teamId]);
+
   const handleSave = async () => {
     await addQuestionsToSurvey(teamId, listOfQuestions);
     await updateTeamSurvey(teamId);
@@ -27,7 +41,7 @@ export const PersonaliseSurvey = () => {
   const addNewQuestion = (e: any) => {
     const currentQuestions = listOfQuestions;
     const addToCurrentQuestions = [...currentQuestions, e.target.value];
-    setDisableButton(false)
+    setDisableButton(false);
     setListOfQuestions(addToCurrentQuestions);
     handleIsValid(addToCurrentQuestions);
   };
@@ -82,19 +96,9 @@ export const PersonaliseSurvey = () => {
       : setIsValidChange(true);
   };
 
-  useEffect(() => {
-    (async () => {
-      const team = await getTeam(teamId);
-      const teamSurvey = await getTeamSurvey(team);
-      if (teamSurvey) {
-        const questions = teamSurvey?.questions?.map(
-          (question) => question.question
-        );
-        setListOfQuestions(questions);
-        setOriginalListOfQuestions(questions);
-      }
-    })();
-  }, [teamId]);
+  const handleBack = () => {
+    history.push(`/teams/${teamId}`);
+  };
 
   return (
     <Container>
@@ -119,6 +123,7 @@ export const PersonaliseSurvey = () => {
             />
           );
         })}
+        <Button onClick={handleBack}>Back</Button>
         <Button onClick={addNewQuestion}>Add Question</Button>
 
         <Button disabled={!isValidChange} onClick={handleSave}>

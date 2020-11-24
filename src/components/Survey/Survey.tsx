@@ -19,17 +19,27 @@ export interface Answer {
 
 export const Survey = () => {
   const { teamId } = useParams();
-
   const [survey, setSurvey] = useState<TeamSurveyData>();
   const [isLoading, setIsLoading] = useState(true);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const history = useHistory();
 
-  // TODO: remove any
-  const answerQuestion = (answer: any) => {
+  useEffect(() => {
+    (async () => {
+      const team = await getTeam(teamId);
+      const teamSurvey = await getTeamSurvey(team);
+
+      if (teamSurvey) {
+        setSurvey(teamSurvey);
+        setIsLoading(false);
+      }
+    })();
+  }, [teamId]);
+
+  const answerQuestion = (answer: Answer) => {
     if (answers.find((item) => item.question_id === answer.question_id)) {
-      setAnswers(
-        answers.map((item) => {
+      setAnswers((previousAnswers) =>
+        previousAnswers.map((item) => {
           if (item.question_id === answer.question_id) {
             return answer;
           } else {
@@ -38,7 +48,7 @@ export const Survey = () => {
         })
       );
     } else {
-      setAnswers([...answers, answer]);
+      setAnswers((previousAnswers) => [...previousAnswers, answer]);
     }
   };
 
@@ -55,18 +65,6 @@ export const Survey = () => {
     history.push(`/survey/thanks`);
   };
 
-  useEffect(() => {
-    (async () => {
-      const team = await getTeam(teamId);
-      const teamSurvey = await getTeamSurvey(team);
-
-      if (teamSurvey) {
-        setSurvey(teamSurvey);
-        setIsLoading(false);
-      }
-    })();
-  }, [teamId]);
-
   if (isLoading) {
     return <Load />;
   }
@@ -78,7 +76,7 @@ export const Survey = () => {
     <Container>
       <h1>{`${survey?.team} Team Health Survey`}</h1>
       {survey?.questions.length === 0 ? (
-        <p>'No questions available'</p>
+        <p>Sorry no questions available right now</p>
       ) : (
         survey?.questions?.map((question, index) => {
           return (
@@ -98,12 +96,14 @@ export const Survey = () => {
           );
         })
       )}
-      <Button
-        disabled={answers.length !== survey?.questions.length}
-        onClick={() => submitAnswers()}
-      >
-        Submit
-      </Button>
+      {survey?.questions.length > 0 && (
+        <Button
+          disabled={answers.length !== survey?.questions.length}
+          onClick={() => submitAnswers()}
+        >
+          Submit
+        </Button>
+      )}
     </Container>
   );
 };

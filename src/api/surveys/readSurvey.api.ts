@@ -3,7 +3,7 @@ import { database } from "../config/database";
 
 export interface Question {
   question: string;
-  id?: string;
+  id: string;
   order?: number;
 }
 export type Questions = Question[];

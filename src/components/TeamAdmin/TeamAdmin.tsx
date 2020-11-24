@@ -59,9 +59,10 @@ export const TeamAdmin = () => {
               assigned
             </p>
           )}
-          <p>Need a reminder of your current survey questions?</p>
+          {surveyQuestions.length !== 0 && (
+            <p>Need a reminder of your current survey questions?</p>
+          )}
           {surveyQuestions?.map((question, index) => {
-            // console.log({question})
             return <li key={index}>{question.question}</li>;
           })}
         </Segment>
@@ -70,7 +71,7 @@ export const TeamAdmin = () => {
           Survey Scores
         </Header>
 
-        <Table celled>
+        <Table celled stackable={true}>
           <GenerateTableHeaders
             tableHeaders={["Survey", "Team Health Score", "No. of Respondents"]}
           />
