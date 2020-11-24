@@ -34,7 +34,6 @@ export const PersonaliseSurvey = () => {
 
   const handleSave = async () => {
     await addQuestionsToSurvey(teamId, listOfQuestions);
-    await updateTeamSurvey(teamId);
     history.push(`/teams/${teamId}`);
   };
 

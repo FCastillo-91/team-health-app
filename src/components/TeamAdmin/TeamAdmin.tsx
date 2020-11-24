@@ -75,7 +75,6 @@ export const TeamAdmin = () => {
         <Header as="h3" textAlign="left">
           Survey Scores
         </Header>
-        {console.log(surveyResults)}
         {surveyResults.length > 0 ? (
           <Table celled stackable={true}>
             <GenerateTableHeaders
