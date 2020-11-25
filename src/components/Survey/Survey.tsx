@@ -103,6 +103,8 @@ export const Survey = () => {
       )}
       {survey?.questions.length > 0 && (
         <Button
+            size="big"
+            color='blue'
             style={{marginBottom: '20px'}}
           disabled={answers.length !== survey?.questions.length}
           onClick={() => submitAnswers()}

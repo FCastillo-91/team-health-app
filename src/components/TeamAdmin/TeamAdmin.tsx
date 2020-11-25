@@ -107,7 +107,7 @@ export const TeamAdmin = () => {
           title="Personalise your survey"
           text="Create a new survey and personalise your questions to better suit your team needs."
           iconName="file alternate outline"
-          routeLink={`/teams/${teamId}/create-survey`}
+          routeLink={`/admin/teams/${teamId}/create-survey`}
         />
       </Container>
     </>

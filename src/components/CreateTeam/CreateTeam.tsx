@@ -55,11 +55,7 @@ export const CreateTeam = () => {
     if (!teamNameInput && !teamCodeInput) {
       return;
     }
-    history.push(`/teams/${teamCodeInput}`);
-  };
-
-  const handleBack = () => {
-    history.push(`/teams`);
+    history.push(`/admin/teams/${teamCodeInput}`);
   };
 
   return (
@@ -89,8 +85,8 @@ export const CreateTeam = () => {
         />
         {errorMessage.isError && <p>{errorMessage.message}</p>}
         <p>You will be assigned a default survey when you create your team.</p>
-        <Button onClick={handleBack}>Back</Button>
         <Button
+          color="blue"
           disabled={!teamCodeInput || !teamNameInput || disableButton}
           onClick={() => {
             handleAddTeam(teamNameInput, teamCodeInput, "default_survey");

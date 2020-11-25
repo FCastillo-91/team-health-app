@@ -3,7 +3,7 @@ import { Dropdown, Menu } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 
 export const NavBar = () => {
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState("Admin");
   const history = useHistory();
 
   const handleClick = () => {
@@ -18,9 +18,9 @@ export const NavBar = () => {
   const handleSelect = (selectedItem: string) => {
     setSelectedItem(selectedItem);
     if (selectedItem === "create") {
-      history.push("/teams/create");
+      history.push("/admin/teams/create");
     } else if (selectedItem === "profiles") {
-      history.push("/teams");
+      history.push("/admin/teams");
     }
   };
   return (

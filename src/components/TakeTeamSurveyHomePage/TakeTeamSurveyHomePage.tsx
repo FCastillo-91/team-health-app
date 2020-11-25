@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Header } from "semantic-ui-react";
 import { getAllTeams, Team } from "../../api/teams/readTeam.api";
 import { useHistory } from "react-router-dom";
@@ -24,15 +23,17 @@ export const TakeTeamSurveyHomePage = () => {
     if (!selectedTeam) {
       return;
     }
-    history.push(`/teams/${selectedTeam}/survey`);
+    history.push(`/admin/teams/${selectedTeam}/survey`);
   };
 
   return (
     <>
       <Header as="h1">Team Health</Header>
-      <p>
+      <p style={{ marginBottom: "20px" }}>
         Welcome to Team Health, a space to anonymously submit your score on ways
-        of working, sense of achievement and track the happiness of your team.
+        of working,
+        <br />
+        sense of achievement and track the happiness of your team.
       </p>
       <p>Please select your team and start your survey..</p>
       <form
@@ -53,7 +54,11 @@ export const TakeTeamSurveyHomePage = () => {
           onChange={(e, data) => handleSetTeam(data.value as string)}
           value={selectedTeam}
         />
-        <Button style={{ marginLeft: "5px" }} disabled={!selectedTeam}>
+        <Button
+          color="blue"
+          style={{ marginLeft: "5px" }}
+          disabled={!selectedTeam}
+        >
           Start Survey
         </Button>
       </form>

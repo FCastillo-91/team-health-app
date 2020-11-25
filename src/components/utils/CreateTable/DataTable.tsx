@@ -43,7 +43,7 @@ export const GenerateTableContent = ({
           <Table.Row key={index}>
             <Table.Cell>{item.code}</Table.Cell>
             <Table.Cell>
-              <Link to={`/teams/${item.code}`}>{item.name}</Link>
+              <Link to={`/admin/teams/${item.code}`}>{item.name}</Link>
             </Table.Cell>
           </Table.Row>
         );

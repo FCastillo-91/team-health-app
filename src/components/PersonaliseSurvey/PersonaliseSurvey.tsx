@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { Button, Container, Form } from "semantic-ui-react";
+import { Button, Container, Form, Grid } from "semantic-ui-react";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { QuestionInput } from "./QuestionInput/QuestionInput";
 import { addQuestionsToSurvey } from "../../api/surveys/createSurvey.api";
-import { updateTeamSurvey } from "../../api/teams/updateTeam.api";
 import { getTeamSurvey } from "../../api/surveys/readSurvey.api";
 import { getTeam } from "../../api/teams/readTeam.api";
 
@@ -34,7 +33,7 @@ export const PersonaliseSurvey = () => {
 
   const handleSave = async () => {
     await addQuestionsToSurvey(teamId, listOfQuestions);
-    history.push(`/teams/${teamId}`);
+    history.push(`/admin/teams/${teamId}`);
   };
 
   const addNewQuestion = (e: any) => {
@@ -96,7 +95,7 @@ export const PersonaliseSurvey = () => {
   };
 
   const handleBack = () => {
-    history.push(`/teams/${teamId}`);
+    history.push(`/admin/teams/${teamId}`);
   };
 
   return (
@@ -122,12 +121,31 @@ export const PersonaliseSurvey = () => {
             />
           );
         })}
-        <Button onClick={handleBack}>Back</Button>
-        <Button onClick={addNewQuestion}>Add Question</Button>
-
-        <Button disabled={!isValidChange} onClick={handleSave}>
-          Save
-        </Button>
+        <Grid columns="equal">
+          <Grid.Row>
+            <Grid.Column textAlign="left">
+              <Button
+                style={{ marginRight: "100px" }}
+                basic
+                onClick={handleBack}
+              >
+                Back
+              </Button>
+            </Grid.Column>
+            <Grid.Column textAlign="right">
+              <Button color="grey" onClick={addNewQuestion}>
+                Add Question
+              </Button>
+              <Button
+                color="blue"
+                disabled={!isValidChange}
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Form>
     </Container>
   );

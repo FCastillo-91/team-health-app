@@ -27,7 +27,7 @@ export const AllTeamsTable = () => {
   }, [getAllTeams]);
 
   const handleAddTeam = () => {
-    history.push(`/teams/create`);
+    history.push(`/admin/teams/create`);
   };
   if (isLoading) {
     return <Load />;
