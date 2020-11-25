@@ -29,7 +29,12 @@ export const TakeTeamSurveyHomePage = () => {
 
   return (
     <>
-      <Header as="h1">Welcome to Team Health</Header>
+      <Header as="h1">Team Health</Header>
+      <p>
+        Welcome to Team Health, a space to anonymously submit your score on ways
+        of working, sense of achievement and track the happiness of your team.
+      </p>
+      <p>Please select your team and start your survey..</p>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -48,7 +53,9 @@ export const TakeTeamSurveyHomePage = () => {
           onChange={(e, data) => handleSetTeam(data.value as string)}
           value={selectedTeam}
         />
-        <Button disabled={!selectedTeam}>Start Survey</Button>
+        <Button style={{ marginLeft: "5px" }} disabled={!selectedTeam}>
+          Start Survey
+        </Button>
       </form>
     </>
   );

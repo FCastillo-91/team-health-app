@@ -75,12 +75,17 @@ export const Survey = () => {
   return (
     <Container>
       <h1>{`${survey?.team} Team Health Survey`}</h1>
+      <h4>
+        Please score each question with how strongly you agree 1 being the
+        lowest and 5 being the highest.
+      </h4>
+
       {survey?.questions.length === 0 ? (
         <p>Sorry no questions available right now</p>
       ) : (
         survey?.questions?.map((question, index) => {
           return (
-            <div key={index}>
+            <div key={index} style={{ marginBottom: "20px" }}>
               <QuestionAndRating
                 question={question.question}
                 value={getValueForQuestion(question.id)}
@@ -98,6 +103,7 @@ export const Survey = () => {
       )}
       {survey?.questions.length > 0 && (
         <Button
+            style={{marginBottom: '20px'}}
           disabled={answers.length !== survey?.questions.length}
           onClick={() => submitAnswers()}
         >
