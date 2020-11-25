@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import { TakeTeamSurveyHomePage } from "../components/TakeTeamSurveyHomePage/TakeTeamSurveyHomePage";
 import { NavBar } from "../components/NavBar/NavBar";
 import { Survey } from "../components/Survey/Survey";
@@ -13,7 +13,7 @@ import { CreateTeam } from "../components/CreateTeam/CreateTeam";
 function App() {
   return (
     <div className="App">
-      <Router basename={process.env.PUBLIC_URL}>
+      <HashRouter basename={process.env.PUBLIC_URL}>
         <NavBar />
         <Switch>
           <Route exact path="/" component={TakeTeamSurveyHomePage} />
@@ -29,7 +29,7 @@ function App() {
           />
           <Route exact path="/survey/thanks" component={SurveyThanks} />
         </Switch>
-      </Router>
+      </HashRouter>
     </div>
   );
 }
