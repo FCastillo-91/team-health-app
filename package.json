@@ -1,6 +1,6 @@
 {
   "name": "team-health--app",
-  "homepage": "https://fcastillo-91.github.io/team-health-app",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
