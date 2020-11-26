@@ -1,54 +1,59 @@
 import { database } from "../config/database";
 import { date } from "../../components/utils/dateHelpers/dateHelpers";
 import { Answer } from "../../components/Survey/Survey";
-import {
-  calculateFirstAverageScore,
-  newSubmissionCount,
-  updateAverageScore,
-} from "../../components/Survey/scoreHelpers/calculateScoreHelpers";
+import { updateAverageScore } from "../../components/Survey/scoreHelpers/calculateScoreHelpers";
 
 export interface ResultsData {
   team: string;
   submissionCount: number;
-  score: number;
+  avgScore: number;
   date: Date;
+  scores: number[];
 }
 
 export const resultsCollectionRef = () => database.collection("results");
 const resultRef = (id: string) => resultsCollectionRef().doc(id);
 const answersCollectionRef = (resultId: string) =>
   resultRef(resultId).collection("answers");
-const answerRef = (answerId: string, resultId: string) =>
-  answersCollectionRef(resultId).doc(answerId);
 
 export const createResultsRefId = (teamId: string) => {
   return `${teamId}-${date()}`;
 };
 
-export const addAnswers = async (teamId: string, answers: Answer[]) => {
+export const addAnswers = async (
+  teamId: string,
+  answers: Answer[],
+  avgScore: number
+) => {
   console.log("Adding Answers");
 
   const resultsId = createResultsRefId(teamId);
   const result = await resultRef(resultsId).get();
-  const firstAvgScore = calculateFirstAverageScore(answers);
 
+  const createScoresArray = (firstAvgScore) => {
+    const firstArry: number[] = [];
+    firstArry.push(firstAvgScore);
+    return firstArry;
+  };
   if (!result.exists) {
     await createResultsDoc(teamId, {
-      score: firstAvgScore,
+      avgScore: avgScore,
       submissionCount: 1,
+      scores: createScoresArray(avgScore),
     });
   } else {
-    const { score, submissionCount } = result.data() as ResultsData;
-    const updatedAverageScore = updateAverageScore(
-      score,
-      submissionCount,
-      firstAvgScore
+    const { submissionCount, scores } = (await result.data()) as ResultsData;
+    const scoresArray: number[] = [...scores, avgScore];
+    const updatedSubmissionCount = submissionCount + 1;
+    const updatedAverageScore = await updateAverageScore(
+      scoresArray,
+      updatedSubmissionCount
     );
-    const updatedSubmissionCount = newSubmissionCount(submissionCount);
 
     await resultRef(resultsId).update({
-      score: updatedAverageScore,
+      avgScore: updatedAverageScore,
       submissionCount: updatedSubmissionCount,
+      scores: scoresArray,
     });
   }
   const batch = database.batch();

@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Button, Container } from "semantic-ui-react";
 import { QuestionAndRating } from "./QuestionAndRating/QuestionAndRating";
@@ -60,8 +59,18 @@ export const Survey = () => {
     return 0;
   };
 
+  const calculateAvgScore = (answersArray: Answer[]) => {
+    const scores = answersArray.map((item) => {
+      return item.score;
+    });
+    const numberOfQuestions = scores.length;
+    const avg = scores.reduce((a, b) => a + b, 0) / numberOfQuestions;
+    return parseFloat(avg.toFixed(3));
+  };
+
   const submitAnswers = async () => {
-    await addAnswers(teamId, answers);
+    const individualAvgScore = calculateAvgScore(answers);
+    await addAnswers(teamId, answers, individualAvgScore);
     history.push(`/survey/thanks`);
   };
 
@@ -103,9 +112,9 @@ export const Survey = () => {
       )}
       {survey?.questions.length > 0 && (
         <Button
-            size="big"
-            color='blue'
-            style={{marginBottom: '20px'}}
+          size="big"
+          color="blue"
+          style={{ marginBottom: "20px" }}
           disabled={answers.length !== survey?.questions.length}
           onClick={() => submitAnswers()}
         >
