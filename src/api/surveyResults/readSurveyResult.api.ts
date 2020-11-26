@@ -2,10 +2,11 @@ import { resultsCollectionRef } from "./createSurveyResult.api";
 
 export interface MonthlyTeamSurveyResults {
   id: string;
-  score: number;
+  avgScore: number;
   submissionCount: number;
   team: string;
   date?: Date;
+  scores: number[];
 }
 
 export const getAllResultsDataPerTeam = async (teamId: string) => {
@@ -15,12 +16,13 @@ export const getAllResultsDataPerTeam = async (teamId: string) => {
     .get();
   if (monthlyTeamResults) {
     return monthlyTeamResults.docs.map((doc) => {
-      const { score, submissionCount, team } = doc.data();
+      const { avgScore, submissionCount, team, scores } = doc.data();
       return {
-        score: score,
-        submissionCount: submissionCount,
-        team: team,
+        avgScore,
+        submissionCount,
+        team,
         id: doc.id,
+        scores,
       };
     });
   }

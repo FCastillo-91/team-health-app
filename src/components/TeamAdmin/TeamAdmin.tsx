@@ -89,7 +89,7 @@ export const TeamAdmin = () => {
                 return (
                   <Table.Row key={index}>
                     <Table.Cell>{result.id}</Table.Cell>
-                    <Table.Cell>{result.score.toFixed(2)}</Table.Cell>
+                    <Table.Cell>{result?.avgScore?.toFixed(2)}</Table.Cell>
                     <Table.Cell>{result.submissionCount}</Table.Cell>
                   </Table.Row>
                 );
