@@ -13,6 +13,7 @@ export const TakeTeamSurveyHomePage = () => {
       const teamNames = await getAllTeams();
       setTeams(teamNames);
     })();
+    // eslint-disable-next-line
   }, [getAllTeams]);
 
   const handleSetTeam = (teamCode: string) => {

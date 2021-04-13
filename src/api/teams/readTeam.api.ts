@@ -22,6 +22,7 @@ export const getAllTeams = async () => {
 export const checkTeamCode = async (teamCode) => {
   const response = await getAllTeams();
   let found = false;
+  // eslint-disable-next-line array-callback-return
   response.map((team) => {
     if (teamCode === team.code) {
       found = true;

@@ -2,19 +2,19 @@ import React from "react";
 import "./App.css";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { TakeTeamSurveyHomePage } from "../components/TakeTeamSurveyHomePage/TakeTeamSurveyHomePage";
-import { NavBar } from "../components/NavBar/NavBar";
 import { Survey } from "../components/Survey/Survey";
 import { SurveyThanks } from "../components/Survey/SurveyThanks/SurveyThanks";
 import { PersonaliseSurvey } from "../components/PersonaliseSurvey/PersonaliseSurvey";
 import { TeamAdmin } from "../components/TeamAdmin/TeamAdmin";
 import { AllTeamsTable } from "../components/AllTeamsTable/AllTeamsTable";
 import { CreateTeam } from "../components/CreateTeam/CreateTeam";
+import { OriginalNavBar } from "../components/OriginalNavBar/OriginalNavBar";
 
 function App() {
   return (
     <div className="App">
       <HashRouter basename={process.env.PUBLIC_URL}>
-        <NavBar />
+        <OriginalNavBar />
         <Switch>
           <Route exact path="/" component={TakeTeamSurveyHomePage} />
           <Route exact path="/admin/teams" component={AllTeamsTable} />

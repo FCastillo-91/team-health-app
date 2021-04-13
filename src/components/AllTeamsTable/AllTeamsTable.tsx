@@ -1,7 +1,6 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container } from "semantic-ui-react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { getAllTeams, Team } from "../../api/teams/readTeam.api";
 import { PageHeader } from "../utils/PageHeader/PageHeader";
 import { GenerateTable } from "../utils/CreateTable/DataTable";
@@ -24,6 +23,7 @@ export const AllTeamsTable = () => {
         setIsLoading(false);
       }
     })();
+    // eslint-disable-next-line
   }, [getAllTeams]);
 
   const handleAddTeam = () => {

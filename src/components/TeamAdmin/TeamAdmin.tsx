@@ -58,12 +58,10 @@ export const TeamAdmin = () => {
           content={`${teamId} Team Health Page`}
         />
         <Segment textAlign="left">
-          {!isLoading && (
-            <p>
-              Your team has a <b>{isDefault ? "default" : "custom"}</b> survey
-              assigned
-            </p>
-          )}
+          <p>
+            Your team has a <b>{isDefault ? "default" : "custom"}</b> survey
+            assigned
+          </p>
           {surveyQuestions.length !== 0 && (
             <p>Here's a reminder of your current questions..</p>
           )}
